@@ -3,12 +3,19 @@
 if [ $(id -u) -eq 0 ]; then
 
     ##################### Update
+    echo "Update system..."
+    sleep 1000
+
     apt update
     apt full-upgrade -y
 
+    echo "...Done"
+    sleep 1000
     clear
 
     ##################### Profile
+    echo "Update Profile..."
+    sleep 1000
 
     tee >>"/home/$1/.bashrc" <<EOF
 PS1='\[\033[01;32m\]\u\[\033[01;37m\]@\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[01;37m\]\$ '
@@ -46,9 +53,14 @@ network:
     version: 2
 EOF
 
+    echo "...Done"
+    sleep 1000
     clear
 
     ##################### SSH
+    echo "Update ssh..."
+    sleep 1000
+
     tee >>/etc/ssh/sshd_config <<EOF
 Port 22022
 AllowUsers $1
@@ -57,9 +69,14 @@ EOF
     systemctl restart ssh
     systemctl enable ssh
 
+    echo "...Done"
+    sleep 1000
     clear
 
     ##################### Docker
+    echo "Install docker..."
+    sleep 1000
+
     apt install -y apt-transport-https ca-certificates curl gpg
 
     # Add Docker's official GPG key:
@@ -74,6 +91,11 @@ EOF
 
     apt update
     apt install docker-ce -y
+
+    echo "...Done"
+    echo "Setup docker"
+    sleep 1000
+    clear
 
     mkdir -p /etc/systemd/system/docker.service.d
     tee >>/etc/systemd/system/docker.service.d/override.conf <<EOF
@@ -92,9 +114,14 @@ EOF
 
     usermod -aG docker $1
 
+    echo "...Done"
+    sleep 1000
     clear
 
     ##################### K8S
+
+    echo "Setup before install k8s..."
+    sleep 1000
 
     sed -i '$ d' /etc/fstab
     swapoff -a
@@ -120,6 +147,11 @@ EOF
     systemctl restart containerd
     systemctl enable containerd
 
+    echo "...Done"
+    echo "Install k8s..."
+    sleep 1000
+    clear
+
     curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
     tee >>/etc/apt/sources.list.d/kubernetes.list <<EOF
@@ -131,6 +163,10 @@ EOF
     apt install -y kubelet kubeadm kubectl
     apt-mark hold kubelet kubeadm kubectl
     systemctl enable --now kubelet
+
+    echo "...Done"
+    sleep 1000
+    clear
 
     reboot
 else
