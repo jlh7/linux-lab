@@ -6,7 +6,7 @@ if [ $(id -u) -eq 0 ]; then
     else
         clear
         ##################### Update
-        echo "Update system..."
+        echo "Updating system..."
         sleep 1
 
         apt update
@@ -17,7 +17,7 @@ if [ $(id -u) -eq 0 ]; then
         clear
 
         ##################### Profile
-        echo "Update Profile..."
+        echo "Updating profile..."
         sleep 1
 
         tee >>"/home/$1/.bashrc" <<EOF
@@ -79,7 +79,7 @@ EOF
         clear
 
         ##################### Docker
-        echo "Install docker..."
+        echo "Installing docker..."
         sleep 1
 
         apt install -y apt-transport-https ca-certificates curl gpg
@@ -97,8 +97,11 @@ EOF
         apt update
         apt install docker-ce -y
 
+        echo "...Done"
+        sleep 1
         clear
-        echo "...Done - Setup docker"
+
+        echo "Setting up docker..."
         sleep 1
 
         mkdir -p /etc/systemd/system/docker.service.d
@@ -124,7 +127,7 @@ EOF
 
         ##################### K8S
 
-        echo "Setup before install k8s..."
+        echo "Setting up before install k8s..."
         sleep 1
 
         sed -i '$ d' /etc/fstab
@@ -151,8 +154,11 @@ EOF
         systemctl restart containerd
         systemctl enable containerd
 
+        echo "...Done"
+        sleep 1
         clear
-        echo "...Done - Install k8s..."
+
+        echo "Installing k8s..."
         sleep 1
 
         curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
