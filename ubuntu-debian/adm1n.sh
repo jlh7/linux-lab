@@ -8,7 +8,7 @@ clear
 
 ##################### Profile
 
-tee >>/home/adm1n/.bashrc <<EOF
+tee >>"/home/$1/.bashrc" <<EOF
 PS1='\[\033[01;32m\]\u\[\033[01;37m\]@\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[01;37m\]\$ '
 EOF
 
@@ -17,7 +17,7 @@ PS1='\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[01;37m\]\$ '
 EOF
 source ~/.bashrc
 
-echo 'adm1n ALL=(ALL:ALL) NOPASSWD: ALL' >/etc/sudoers.d/adm1n
+echo "$1 ALL=(ALL:ALL) NOPASSWD: ALL" >"/etc/sudoers.d/$1"
 
 tee >>/etc/hosts <<EOF
 211.1.1.2 sample-node
@@ -34,10 +34,10 @@ network:
         enp0s8:
             dhcp4: false
             addresses:
-                - 211.1.1.2/24
-#               - 211.1.1.21/24
-#               - 211.1.1.22/24
-#               - 211.1.1.23/24
+                - 211.1.1.$($2)/24
+#               - 211.1.1.$($2)1/24
+#               - 211.1.1.$($2)2/24
+#               - 211.1.1.$($2)3/24
     version: 2
 EOF
 
@@ -46,7 +46,7 @@ clear
 ##################### SSH
 tee >>/etc/ssh/sshd_config <<EOF
 Port 22022
-AllowUsers adm1n
+AllowUsers $1
 EOF
 
 systemctl restart ssh
@@ -85,7 +85,7 @@ systemctl daemon-reload
 systemctl restart docker
 systemctl enable docker
 
-usermod -aG docker adm1n
+usermod -aG docker $1
 
 clear
 
