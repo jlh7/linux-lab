@@ -28,7 +28,7 @@ tee >>/etc/hosts <<EOF
 211.1.1.23 node-c
 EOF
 
-tee >>/etc/netplan/50-cloud-init.yaml <<EOF
+tee >/etc/netplan/50-cloud-init.yaml <<EOF
 network:
     ethernets:
         enp0s3:
