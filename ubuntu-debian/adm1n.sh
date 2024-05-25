@@ -4,20 +4,21 @@ if [ $(id -u) -eq 0 ]; then
     if [ -z "$1" ] || [ -z "$2" ]; then
         echo "Please provide username and network id"
     else
+        clear
         ##################### Update
         echo "Update system..."
-        sleep 1000
+        sleep 1
 
         apt update
         apt full-upgrade -y
 
         echo "...Done"
-        sleep 1000
+        sleep 1
         clear
 
         ##################### Profile
         echo "Update Profile..."
-        sleep 1000
+        sleep 1
 
         tee >>"/home/$1/.bashrc" <<EOF
 PS1='\[\033[01;32m\]\u\[\033[01;37m\]@\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[01;37m\]\$ '
@@ -56,12 +57,12 @@ network:
 EOF
 
         echo "...Done"
-        sleep 1000
+        sleep 1
         clear
 
         ##################### SSH
         echo "Update ssh..."
-        sleep 1000
+        sleep 1
 
         tee >>/etc/ssh/sshd_config <<EOF
 Port 22022
@@ -72,12 +73,12 @@ EOF
         systemctl enable ssh
 
         echo "...Done"
-        sleep 1000
+        sleep 1
         clear
 
         ##################### Docker
         echo "Install docker..."
-        sleep 1000
+        sleep 1
 
         apt install -y apt-transport-https ca-certificates curl gpg
 
@@ -96,7 +97,7 @@ EOF
 
         echo "...Done"
         echo "Setup docker"
-        sleep 1000
+        sleep 1
         clear
 
         mkdir -p /etc/systemd/system/docker.service.d
@@ -117,13 +118,13 @@ EOF
         usermod -aG docker $1
 
         echo "...Done"
-        sleep 1000
+        sleep 1
         clear
 
         ##################### K8S
 
         echo "Setup before install k8s..."
-        sleep 1000
+        sleep 1
 
         sed -i '$ d' /etc/fstab
         swapoff -a
@@ -151,7 +152,7 @@ EOF
 
         echo "...Done"
         echo "Install k8s..."
-        sleep 1000
+        sleep 1
         clear
 
         curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
@@ -167,7 +168,7 @@ EOF
         systemctl enable --now kubelet
 
         echo "...Done"
-        sleep 1000
+        sleep 1
         clear
 
         reboot
