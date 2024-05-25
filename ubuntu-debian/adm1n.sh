@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $(id -u) -eq 1000 ]; then
+if [ $(id -u) -eq 0 ]; then
 
     ##################### Update
     apt update
