@@ -19,6 +19,8 @@ PS1='\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[01;37m\]\$ '
 EOF
 source ~/.bashrc
 
+echo 'adm1n ALL=(ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/adm1n
+
 tee >> /etc/hosts << EOF
 211.1.1.2 node-base
 211.1.1.21 node-a
@@ -84,6 +86,8 @@ chmod a+rw -R /etc/systemd/system/docker.service.d
 systemctl daemon-reload
 systemctl restart docker
 systemctl enable docker
+
+usermod -aG docker adm1n
 
 clear
 
