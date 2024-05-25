@@ -1,7 +1,5 @@
 #!/bin/bash
 
-sudo -i
-
 ##################### Update
 apt update
 apt full-upgrade -y
