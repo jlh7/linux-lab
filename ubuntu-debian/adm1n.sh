@@ -35,10 +35,10 @@ EOF
         systemctl start ntp
 
         tee >>/etc/hosts <<EOF
-211.1.1.$(echo $2) sample-node
-211.1.1.$(echo $2)1 node-a
-211.1.1.$(echo $2)2 node-b
-211.1.1.$(echo $2)3 node-c
+$(echo $2) sample-node
+$(echo $2)1 node-a
+$(echo $2)2 node-b
+$(echo $2)3 node-c
 EOF
 
         tee >/etc/netplan/50-cloud-init.yaml <<EOF
@@ -49,10 +49,10 @@ network:
         enp0s8:
             dhcp4: false
             addresses:
-                - 211.1.1.$(echo $2)/24
-#               - 211.1.1.$(echo $2)1/24
-#               - 211.1.1.$(echo $2)2/24
-#               - 211.1.1.$(echo $2)3/24
+                - $(echo $2)/24
+#               - $(echo $2)1/24
+#               - $(echo $2)2/24
+#               - $(echo $2)3/24
     version: 2
 EOF
 
