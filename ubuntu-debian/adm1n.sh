@@ -97,10 +97,9 @@ EOF
         apt update
         apt install docker-ce -y
 
-        echo "...Done"
-        echo "Setup docker"
-        sleep 1
         clear
+        echo "...Done - Setup docker"
+        sleep 1
 
         mkdir -p /etc/systemd/system/docker.service.d
         tee >>/etc/systemd/system/docker.service.d/override.conf <<EOF
@@ -152,10 +151,9 @@ EOF
         systemctl restart containerd
         systemctl enable containerd
 
-        echo "...Done"
-        echo "Install k8s..."
-        sleep 1
         clear
+        echo "...Done - Install k8s..."
+        sleep 1
 
         curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
