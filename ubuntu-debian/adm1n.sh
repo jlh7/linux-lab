@@ -9,8 +9,15 @@ if [ $(id -u) -eq 0 ]; then
         echo "Updating system..."
         sleep 1
 
-        apt update
-        apt full-upgrade -y
+        echo "- Updating..."
+        tee >/dev/null <<EOF
+    $(apt update)
+EOF
+
+        echo "- Upgrading..."
+        tee >/dev/null <<EOF
+    $(apt full-upgrade -y)
+EOF
 
         echo "...Done"
         sleep 1
@@ -20,6 +27,7 @@ if [ $(id -u) -eq 0 ]; then
         echo "Updating profile..."
         sleep 1
 
+        echo "- Set color..."
         tee >>"/home/$1/.bashrc" <<EOF
 PS1='\[\033[01;32m\]\u\[\033[01;37m\]@\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[01;37m\]\$ '
 EOF
@@ -29,11 +37,16 @@ PS1='\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[01;37m\]\$ '
 EOF
         source ~/.bashrc
 
+        echo "- Sudo without password..."
         echo "$1 ALL=(ALL:ALL) NOPASSWD: ALL" >"/etc/sudoers.d/$1"
 
-        apt install ntp -y
+        echo "- Use ntp to update time..."
+        tee >/dev/null <<EOF
+    $(apt install ntp -y)
+EOF
         systemctl start ntp
 
+        echo "- Set host..."
         tee >>/etc/hosts <<EOF
 $(echo $2) sample-node
 $(echo $2)1 node-a
@@ -41,6 +54,7 @@ $(echo $2)2 node-b
 $(echo $2)3 node-c
 EOF
 
+        echo "- Set netplan..."
         tee >/etc/netplan/50-cloud-init.yaml <<EOF
 network:
     ethernets:
@@ -66,6 +80,7 @@ EOF
         echo "Update ssh..."
         sleep 1
 
+        echo "- Config..."
         tee >>/etc/ssh/sshd_config <<EOF
 Port 22022
 AllowUsers $1
@@ -82,20 +97,28 @@ EOF
         echo "Installing docker..."
         sleep 1
 
-        apt install -y apt-transport-https ca-certificates curl gpg
+        echo "- Installing service..."
+        tee >/dev/null <<EOF
+    $(apt install -y apt-transport-https ca-certificates curl gpg)
+EOF
 
-        # Add Docker's official GPG key:
+        echo "- Add Docker's official GPG key"
         install -m 0755 -d /etc/apt/keyrings
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
         chmod a+r /etc/apt/keyrings/docker.asc
 
-        # Add the repository to Apt sources:
+        echo "- Add the repository to Apt sources"
         tee >>/etc/apt/sources.list.d/docker.list <<EOF
 deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable
 EOF
 
-        apt update
-        apt install docker-ce -y
+        tee >/dev/null <<EOF
+    $(apt update)
+EOF
+        echo "- Installing docker..."
+        tee >/dev/null <<EOF
+    $(apt install docker-ce -y)
+EOF
 
         echo "...Done"
         sleep 1
@@ -104,6 +127,7 @@ EOF
         echo "Setting up docker..."
         sleep 1
 
+        echo "- Setting dockerd..."
         mkdir -p /etc/systemd/system/docker.service.d
         tee >>/etc/systemd/system/docker.service.d/override.conf <<EOF
 [Service]
@@ -119,6 +143,7 @@ EOF
         systemctl restart docker
         systemctl enable docker
 
+        echo "- Add user to docker..."
         usermod -aG docker $1
 
         echo "...Done"
@@ -130,9 +155,11 @@ EOF
         echo "Setting up before install k8s..."
         sleep 1
 
+        echo "- Turn off swap..."
         sed -i '$ d' /etc/fstab
         swapoff -a
 
+        echo "- Config containerd..."
         tee >>/etc/modules-load.d/containerd.conf <<EOF
 overlay
 br_netfilter
@@ -161,16 +188,23 @@ EOF
         echo "Installing k8s..."
         sleep 1
 
+        echo "- Add K8S's official GPG key"
         curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
         tee >>/etc/apt/sources.list.d/kubernetes.list <<EOF
 deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /
 EOF
 
-        apt update
+        tee >/dev/null <<EOF
+    $(apt update)
+EOF
 
-        apt install -y kubelet kubeadm kubectl
-        apt-mark hold kubelet kubeadm kubectl
+        echo "- Installing k8s..."
+        tee >/dev/null <<EOF
+    $(apt install -y kubelet kubeadm kubectl)
+    $(apt-mark hold kubelet kubeadm kubectl)
+EOF
+
         systemctl enable --now kubelet
 
         echo "...Done"
