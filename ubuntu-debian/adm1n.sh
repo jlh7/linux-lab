@@ -133,4 +133,6 @@ EOF
     systemctl enable --now kubelet
 
     reboot
+else
+    echo "Please use in root mode"
 fi
