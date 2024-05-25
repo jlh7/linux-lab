@@ -56,6 +56,8 @@ network:
     version: 2
 EOF
 
+        netplan apply
+
         echo "...Done"
         sleep 1
         clear
