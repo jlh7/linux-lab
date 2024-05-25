@@ -22,7 +22,7 @@ source ~/.bashrc
 echo 'adm1n ALL=(ALL:ALL) NOPASSWD: ALL' >/etc/sudoers.d/adm1n
 
 tee >>/etc/hosts <<EOF
-211.1.1.2 node-base
+211.1.1.2 sample-node
 211.1.1.21 node-a
 211.1.1.22 node-b
 211.1.1.23 node-c
