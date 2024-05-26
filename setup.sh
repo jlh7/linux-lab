@@ -4,7 +4,6 @@ if [ $(id -u) -eq 0 ]; then
     if [ -n "$1" ]; then
         _user=''
         _ip=''
-        _numNode=0
         _is_help=false
 
         while [ -n "$1" ]; do
@@ -15,10 +14,6 @@ if [ $(id -u) -eq 0 ]; then
                 ;;
             --ip)
                 _ip="$2"
-                shift 1
-                ;;
-            --num-node)
-                _numNode=$2
                 shift 1
                 ;;
             --help)
@@ -35,7 +30,6 @@ if [ $(id -u) -eq 0 ]; then
         if [ "$_is_help" = true ]; then
             echo '-u <username>'
             echo '--ip <network ip>'
-            echo '--num-node <number of node>'
             echo 'At least it must be provided username and network ip'
         elif [ -n "$_user" ] && [ -n "$_ip" ]; then
             clear
@@ -51,7 +45,7 @@ if [ $(id -u) -eq 0 ]; then
             echo "...Done"
 
             ##################### Profile
-            bash ./update-profile.sh -u $_user --ip $_ip --num-node $_numNode
+            bash ./update-profile.sh -u $_user
 
             ##################### SSH
             bash ./update-ssh.sh -u $_user

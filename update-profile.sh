@@ -3,22 +3,12 @@
 if [ $(id -u) -eq 0 ]; then
   if [ -n "$1" ]; then
     _user=''
-    _ip=''
-    _numNode=0
     _is_help=false
 
     while [ -n "$1" ]; do
       case "$1" in
       -u)
         _user="$2"
-        shift 1
-        ;;
-      --ip)
-        _ip="$2"
-        shift 1
-        ;;
-      --num-node)
-        _numNode=$2
         shift 1
         ;;
       --help)
@@ -34,10 +24,7 @@ if [ $(id -u) -eq 0 ]; then
 
     if [ "$_is_help" = true ]; then
       echo '-u <username>'
-      echo '--ip <network ip>'
-      echo '--num-node <number of node>'
-      echo 'At least it must be provided username and network ip'
-    elif [ -n "$_user" ] && [ -n "$_ip" ]; then
+    elif [ -n "$_user" ]; then
 
       echo "Updating profile..."
       echo "- Set color..."
@@ -57,47 +44,9 @@ EOF
       apt install ntp -y &>/dev/null
       systemctl start ntp
 
-      echo "- Set host..."
-      tee >>/etc/hosts <<EOF
-$(echo $_ip) sample-node
-EOF
-      if ((_numNode > 0)); then
-        for ((i = 1; i <= $_numNode; i++)); do
-          echo "$(echo $_ip)$i node-$i" >>/etc/hosts
-        done
-      fi
-
-      echo "- Set netplan..."
-      tee >./tmp.txt <<EOF
-network:
-    ethernets:
-        enp0s3:
-            dhcp4: true
-        enp0s8:
-            dhcp4: false
-            addresses:
-                - $(echo $_ip)/24
-EOF
-
-      if ((_numNode > 0)); then
-        for ((i = 1; i <= $_numNode; i++)); do
-          echo "#               - $(echo $_ip)$i/24" >>./tmp.txt
-        done
-      fi
-
-      echo "    version: 2" >>./tmp.txt
-      cat ./tmp.txt >/etc/netplan/50-cloud-init.yaml
-
-      netplan apply
       echo "...Done"
     else
-      if [ -z "$_user" ]; then
-        echo "Please provide username (-u)"
-      fi
-
-      if [ -z "$_ip" ]; then
-        echo "Please provide network ip (--ip)"
-      fi
+      echo "Please provide username (-u)"
     fi
   else
     echo "Nothing happen..."
