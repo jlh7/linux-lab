@@ -61,7 +61,7 @@ EOF
       tee >>/etc/hosts <<EOF
 $(echo $_ip) sample-node
 EOF
-      if [ _numNode -gt 0 ]; then
+      if ((_numNode > 0)); then
         for ((i = 1; i <= $_numNode; i++)); do
           echo "$(echo $_ip)$i node-$i" >>/etc/hosts
         done
@@ -79,7 +79,7 @@ network:
                 - $(echo $_ip)/24
 EOF
 
-      if [ _numNode -gt 0 ]; then
+      if ((_numNode > 0)); then
         for ((i = 1; i <= $_numNode; i++)); do
           echo "#               - $(echo $_ip)$i/24" >>./tmp.txt
         done
