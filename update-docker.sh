@@ -3,6 +3,7 @@
 if [ $(id -u) -eq 0 ]; then
   if [ -n "$1" ]; then
     _user=''
+    _is_help=false
 
     while [ -n "$1" ]; do
       case "$1" in
@@ -11,7 +12,7 @@ if [ $(id -u) -eq 0 ]; then
         shift 1
         ;;
       --help)
-        echo '-u <username>'
+        _is_help=true
         ;;
       *)
         echo "'$1' is valid!"
@@ -20,7 +21,9 @@ if [ $(id -u) -eq 0 ]; then
       shift 1
     done
 
-    if [ -n "$_user" ]; then
+    if [ _is_help = true ]; then
+      echo '-u <username>'
+    elif [ -n "$_user" ]; then
       echo "Installing docker..."
 
       echo "- Installing service..."
@@ -68,7 +71,7 @@ EOF
       echo "Please provide username (-u)"
     fi
   else
-    echo "Please provide username (-u)"
+    echo "Nothing happen..."
   fi
 else
   echo "Please use in root mode"

@@ -5,6 +5,7 @@ if [ $(id -u) -eq 0 ]; then
     _user=''
     _ip=''
     _numNode=0
+    _is_help=false
 
     while [ -n "$1" ]; do
       case "$1" in
@@ -21,9 +22,8 @@ if [ $(id -u) -eq 0 ]; then
         shift 1
         ;;
       --help)
-        echo '-u <username>'
-        echo '--ip <network-ip>'
-        echo '--num-node <number of node>'
+        _is_help=true
+        break
         ;;
       *)
         echo "'$1' is valid!"
@@ -32,7 +32,11 @@ if [ $(id -u) -eq 0 ]; then
       shift 1
     done
 
-    if [ -n "$_user" ] && [ -n "$_ip" ]; then
+    if [ _is_help = true ]; then
+      echo '-u <username>'
+      echo '--ip <network-ip>'
+      echo '--num-node <number of node>'
+    elif [ -n "$_user" ] && [ -n "$_ip" ]; then
 
       echo "Updating profile..."
       echo "- Set color..."
@@ -95,7 +99,7 @@ EOF
       fi
     fi
   else
-    echo "Please provide username (-u) and network ip (--ip)"
+    echo "Nothing happen..."
   fi
 else
   echo "Please use in root mode"
