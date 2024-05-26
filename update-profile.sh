@@ -6,7 +6,7 @@ if [ $(id -u) -eq 0 ]; then
     _ip=''
     _numNode=0
 
-    while [ -n "$1"]; do
+    while [ -n "$1" ]; do
       case "$1" in
       -u)
         _user="$2"
@@ -32,7 +32,7 @@ if [ $(id -u) -eq 0 ]; then
       shift 1
     done
 
-    if [ -n "$_user" ] && [ -n "$_ip"]; then
+    if [ -n "$_user" ] && [ -n "$_ip" ]; then
 
       echo "Updating profile..."
       echo "- Set color..."

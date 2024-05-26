@@ -4,7 +4,7 @@ if [ $(id -u) -eq 0 ]; then
   if [ -n "$1" ]; then
     _user=''
 
-    while [ -n "$1"]; do
+    while [ -n "$1" ]; do
       case "$1" in
       -u)
         _user="$2"
