@@ -22,7 +22,7 @@ net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
 EOF
 
-  sudo sysctl --system
+  sudo sysctl --system &>/dev/null
 
   containerd config default >/etc/containerd/config.toml
   sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
