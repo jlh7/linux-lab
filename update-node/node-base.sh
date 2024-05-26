@@ -52,9 +52,6 @@ if [ $(id -u) -eq 0 ]; then
 
 EOF
 
-      cat ./tmp.txt >>/etc/hosts
-      rm ./tmp.txt
-
       echo "$_ip  $_host" >>/etc/hosts
 
       if ((_numNode > 0)); then
@@ -62,6 +59,9 @@ EOF
           echo "$(echo $_ip)$i  node-$i" >>/etc/hosts
         done
       fi
+
+      cat ./tmp.txt >>/etc/hosts
+      rm ./tmp.txt
 
       tee <<EOF >/etc/netplan/50-cloud-init.yaml
 network:
