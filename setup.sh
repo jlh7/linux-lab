@@ -34,8 +34,9 @@ if [ $(id -u) -eq 0 ]; then
 
         if [ "$_is_help" = true ]; then
             echo '-u <username>'
-            echo '--ip <network-ip>'
+            echo '--ip <network ip>'
             echo '--num-node <number of node>'
+            echo 'At least it must be provided username and network ip'
         elif [ -n "$_user" ] && [ -n "$_ip" ]; then
             clear
             ##################### Update
