@@ -3,17 +3,12 @@
 if [ $(id -u) -eq 0 ]; then
     if [ -n "$1" ]; then
         _user=''
-        _ip=''
         _is_help=false
 
         while [ -n "$1" ]; do
             case "$1" in
             -u)
                 _user="$2"
-                shift 1
-                ;;
-            --ip)
-                _ip="$2"
                 shift 1
                 ;;
             --help)
@@ -29,9 +24,7 @@ if [ $(id -u) -eq 0 ]; then
 
         if [ "$_is_help" = true ]; then
             echo '-u <username>'
-            echo '--ip <network ip>'
-            echo 'At least it must be provided username and network ip'
-        elif [ -n "$_user" ] && [ -n "$_ip" ]; then
+        elif [ -n "$_user" ]; then
             clear
             ##################### Update
             echo "Updating system..."
@@ -59,13 +52,7 @@ if [ $(id -u) -eq 0 ]; then
             reboot
 
         else
-            if [ -z "$_user" ]; then
-                echo "Please provide username (-u)"
-            fi
-
-            if [ -z "$_ip" ]; then
-                echo "Please provide network ip (--ip)"
-            fi
+            echo "Please provide username (-u)"
         fi
     else
         echo "Nothing happen..."
