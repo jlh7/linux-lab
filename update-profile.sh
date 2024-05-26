@@ -32,7 +32,7 @@ if [ $(id -u) -eq 0 ]; then
       shift 1
     done
 
-    if [ _is_help = true ]; then
+    if [ "$_is_help" = true ]; then
       echo '-u <username>'
       echo '--ip <network-ip>'
       echo '--num-node <number of node>'

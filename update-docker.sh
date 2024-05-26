@@ -21,7 +21,7 @@ if [ $(id -u) -eq 0 ]; then
       shift 1
     done
 
-    if [ _is_help = true ]; then
+    if [ "$_is_help" = true ]; then
       echo '-u <username>'
     elif [ -n "$_user" ]; then
       echo "Installing docker..."
