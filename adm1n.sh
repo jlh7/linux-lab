@@ -110,7 +110,7 @@ AllowUsers $_user
 EOF
 
             systemctl restart ssh
-            systemctl enable ssh
+            systemctl enable ssh &>/dev/null
 
             echo "...Done"
 
@@ -132,9 +132,7 @@ EOF
 
             apt update &>/dev/null
             echo "- Installing docker..."
-            tee <<EOF >/dev/null
-    $(apt install docker-ce -y)
-EOF
+            apt install docker-ce -y &>/dev/null
 
             echo "...Done"
 
@@ -154,7 +152,7 @@ EOF
 
             systemctl daemon-reload
             systemctl restart docker
-            systemctl enable docker
+            systemctl enable docker &>/dev/null
 
             echo "- Add user to docker..."
             usermod -aG docker $_user
@@ -189,7 +187,7 @@ EOF
             containerd config default >/etc/containerd/config.toml
             sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
             systemctl restart containerd
-            systemctl enable containerd
+            systemctl enable containerd &>/dev/null
 
             echo "...Done"
 
@@ -208,7 +206,7 @@ EOF
             apt install -y kubelet kubeadm kubectl &>/dev/null
             apt-mark hold kubelet kubeadm kubectl &>/dev/null
 
-            systemctl enable --now kubelet
+            systemctl enable --now kubelet &>/dev/null
 
             echo "...Done"
 
