@@ -49,8 +49,6 @@ if [ $(id -u) -eq 0 ]; then
             ##################### K8S
             bash ./update-k8s.sh
 
-            reboot
-
         else
             echo "Please provide username (-u)"
         fi
