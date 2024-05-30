@@ -52,5 +52,6 @@ echo "$_user ALL=(ALL:ALL) NOPASSWD: ALL" >"/etc/sudoers.d/$_user"
 echo "- Use ntp to update time..."
 apt install ntp -y
 systemctl start ntp
+echo "-------------------------------------------------------------------------------------------"
 
 echo "...Done"

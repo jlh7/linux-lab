@@ -71,4 +71,5 @@ echo "        - $_ip/24" >>/etc/netplan/01-netcfg.yaml
 echo "  version: 2" >>/etc/netplan/01-netcfg.yaml
 
 netplan apply
+reboot
 echo "...Done"

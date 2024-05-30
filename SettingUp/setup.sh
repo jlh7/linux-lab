@@ -45,10 +45,10 @@ clear
 echo "Updating system..."
 
 echo "- Updating..."
-apt update &>/dev/null
+apt update
 
 echo "- Upgrading..."
-apt full-upgrade -y &>/dev/null
+apt full-upgrade -y
 
 echo "...Done"
 
