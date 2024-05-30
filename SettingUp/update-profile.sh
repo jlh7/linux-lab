@@ -51,6 +51,7 @@ echo "- Sudo without password..."
 echo "$_user ALL=(ALL:ALL) NOPASSWD: ALL" >"/etc/sudoers.d/$_user"
 
 echo "- Use ntp to update time..."
+timedatectl set-timezone Asia/Ho_Chi_Minh
 apt install ntp -y
 systemctl start ntp
 echo "-------------------------------------------------------------------------------------------"
