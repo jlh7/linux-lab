@@ -1,0 +1,6 @@
+sudo kubeadm init \
+--apiserver-advertise-address 132.2.2.2 \
+--control-plane-endpoint=master-2 \
+--pod-network-cidr 10.240.0.0/16 \
+--service-cidr 10.96.0.0/16 \
+--token at0k3n.t0r3g1st3rn0d333
