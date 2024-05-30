@@ -1,0 +1,56 @@
+#!/bin/bash
+
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run as root"
+  exit 1
+fi
+
+if [ -z "$1" ]; then
+  echo "Nothing happen..."
+  exit 1
+fi
+
+_user=''
+_is_help=false
+
+while [ -n "$1" ]; do
+  case "$1" in
+  -u)
+    _user="$2"
+    shift 1
+    ;;
+  --help)
+    _is_help=true
+    break
+    ;;
+  *)
+    echo "'$1' is valid!"
+    ;;
+  esac
+  shift 1
+done
+
+if [ "$_is_help" = true ]; then
+  echo '-u <username>'
+  exit 1
+fi
+
+if [ -z "$_user" ]; then
+  echo "Please provide username (-u) as an argument when running the script"
+  exit 1
+fi
+
+echo "Updating profile..."
+echo "- Set color..."
+echo "PS1='\[\033[01;32m\]\u\[\033[01;37m\]@\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[00m\]\$ '" >>"/home/$_user/.bashrc"
+echo "PS1='\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[00m\]\$ '" >>"~/.bashrc"
+source ~/.bashrc
+
+echo "- Sudo without password..."
+echo "$_user ALL=(ALL:ALL) NOPASSWD: ALL" >"/etc/sudoers.d/$_user"
+
+echo "- Use ntp to update time..."
+apt install ntp -y
+systemctl start ntp
+
+echo "...Done"
