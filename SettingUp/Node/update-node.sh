@@ -58,9 +58,9 @@ echo "Updating node..."
 
 hostnamectl set-hostname $_host
 
-echo "- Set host..."
+echo "- Set host from file hosts..."
 
-echo "$_ip  $_host" >/etc/hosts
+cat ./hosts.txt >/etc/hosts
 
 echo "network:" >/etc/netplan/01-netcfg.yaml
 echo "  ethernets:" >>/etc/netplan/01-netcfg.yaml
