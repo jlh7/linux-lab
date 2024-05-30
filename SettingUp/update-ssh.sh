@@ -45,7 +45,7 @@ echo "Update ssh..."
 
 echo "- Config..."
 head -n +2 /etc/ssh/sshd_config >./tmp
-echo "Port 5222" >>./tmp
+echo "Port 22022" >>./tmp
 echo "AllowUsers $_user" >>./tmp
 cat ./tmp >/etc/ssh/sshd_config
 
