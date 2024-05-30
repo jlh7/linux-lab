@@ -6,7 +6,8 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 if [ -z "$1" ]; then
-    echo "Nothing happen..."
+    echo '-u <username>'
+    echo '--help for help'
     exit 1
 fi
 
