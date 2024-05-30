@@ -74,4 +74,4 @@ echo "  version: 2" >>/etc/netplan/01-netcfg.yaml
 
 netplan apply
 reboot
-echo "...Done"
+echo "------------------------------------------ DONE ------------------------------------------"

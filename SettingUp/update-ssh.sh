@@ -52,5 +52,4 @@ cat ./tmp >/etc/ssh/sshd_config
 echo "- Restart..."
 systemctl restart ssh
 systemctl enable ssh --now
-
-echo "...Done"
+echo "------------------------------------------ DONE ------------------------------------------"

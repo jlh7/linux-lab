@@ -44,7 +44,7 @@ echo "Installing docker..."
 
 echo "- Installing service..."
 apt install -y apt-transport-https ca-certificates curl gpg
-echo "-------------------------------------------------------------------------------------------"
+echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "- Add Docker's official GPG key"
 install -m 0755 -d /etc/apt/keyrings
@@ -54,13 +54,11 @@ chmod a+r /etc/apt/keyrings/docker.asc
 echo "- Add the repository to Apt sources"
 tee "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" >>/etc/apt/sources.list.d/docker.list
 apt update
-echo "-------------------------------------------------------------------------------------------"
+echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "- Installing docker..."
 apt install docker-ce -y
-echo "-------------------------------------------------------------------------------------------"
-
-echo "...Done"
+echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "Setting up docker..."
 
@@ -77,9 +75,9 @@ echo "- Restart docker..."
 systemctl daemon-reload
 systemctl restart docker
 systemctl enable docker
-echo "-------------------------------------------------------------------------------------------"
+echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "- Add user to docker..."
 usermod -aG docker $_user
 
-echo "...Done"
+echo "------------------------------------------ DONE ------------------------------------------"

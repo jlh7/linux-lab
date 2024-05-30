@@ -23,16 +23,14 @@ echo "net.bridge.bridge-nf-call-ip6tables = 1" >>/etc/sysctl.d/99-kubernetes-cri
 echo "net.ipv4.ip_forward = 1" >>/etc/sysctl.d/99-kubernetes-cri.conf
 
 sudo sysctl --system
-echo "-------------------------------------------------------------------------------------------"
+echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "- Restart containerd..."
 containerd config default >/etc/containerd/config.toml
 sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
 systemctl restart containerd
 systemctl enable containerd
-echo "-------------------------------------------------------------------------------------------"
-
-echo "...Done"
+echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "Installing k8s..."
 
@@ -40,14 +38,12 @@ echo "- Add K8S's official GPG key"
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /" >>/etc/apt/sources.list.d/kubernetes.list
 apt update
-echo "-------------------------------------------------------------------------------------------"
+echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "- Installing k8s..."
 apt install -y kubelet kubeadm kubectl
 apt-mark hold kubelet kubeadm kubectl
-echo "-------------------------------------------------------------------------------------------"
+echo "------------------------------------------ DONE ------------------------------------------"
 
 systemctl enable --now kubelet
-echo "-------------------------------------------------------------------------------------------"
-
-echo "...Done"
+echo "------------------------------------------ DONE ------------------------------------------"

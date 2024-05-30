@@ -47,11 +47,11 @@ echo "Updating system..."
 
 echo "- Updating..."
 apt update
+echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "- Upgrading..."
 apt full-upgrade -y
-
-echo "...Done"
+echo "------------------------------------------ DONE ------------------------------------------"
 
 ##################### Profile
 bash ./update-profile.sh -u $_user

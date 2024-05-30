@@ -54,6 +54,4 @@ echo "- Use ntp to update time..."
 timedatectl set-timezone Asia/Ho_Chi_Minh
 apt install ntp -y
 systemctl start ntp
-echo "-------------------------------------------------------------------------------------------"
-
-echo "...Done"
+echo "------------------------------------------ DONE ------------------------------------------"
