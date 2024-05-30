@@ -47,6 +47,19 @@ echo "PS1='\[\033[01;32m\]\u\[\033[01;37m\]@\[\033[01;33m\]\h\[\033[01;31m\]:\[\
 echo "PS1='\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[00m\]\$ '" >>"/root/.bashrc"
 source ~/.bashrc
 
+echo "- Set screen resolution..."
+echo "GRUB_GFXPAYLOAD_LINUX=1024x768" >>/etc/default/grub
+update-grub
+
+echo "- Set fontsize..."
+echo "ACTIVE_CONSOLES=\"/dev/tty[1-6]\"" >/etc/default/console-setup
+echo "CHARMAP=\"UTF-8\"" >>/etc/default/console-setup
+echo "CODESET=\"Lat15\"" >>/etc/default/console-setup
+echo "FONTFACE=\"Fixed\"" >>/etc/default/console-setup
+echo "FONTSIZE=\"6x12\"" >>/etc/default/console-setup
+echo "VIDEOMODE=" >>/etc/default/console-setup
+update-initramfs -u
+
 echo "- Sudo without password..."
 echo "$_user ALL=(ALL:ALL) NOPASSWD: ALL" >"/etc/sudoers.d/$_user"
 
