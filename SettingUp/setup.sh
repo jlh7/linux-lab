@@ -45,6 +45,8 @@ clear
 ##################### Update
 echo "Updating system..."
 
+echo "" >/etc/apt/sources.list
+
 echo "- Updating..."
 apt update
 echo "------------------------------------------ DONE ------------------------------------------"
