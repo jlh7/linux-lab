@@ -3,21 +3,21 @@ kind: PersistentVolumeClaim
 metadata:
   name: pvc-1
 spec:
+  storageClassName: local-storage
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 500Mi
-  volumeName: pv-1
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: pvc-2
 spec:
+  storageClassName: local-storage
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 500Mi
-  volumeName: pv-2
+      storage: 1Gi
