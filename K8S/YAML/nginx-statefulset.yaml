@@ -26,6 +26,20 @@ metadata:
   labels:
     app: nginx
 spec:
+  initContainers:
+    - name: init
+      image: busybox
+      command:
+        [
+          "sh",
+          "-c",
+          'echo "Welcome to Nginx 0" > /usr/share/nginx/html/index.html',
+        ]
+      env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
   containers:
     - name: nginx
       image: nginx:stable
@@ -34,15 +48,10 @@ spec:
       volumeMounts:
         - name: nginx-logs
           mountPath: /var/log/nginx
-        - name: nginx-index
-          mountPath: /usr/share/nginx/html
   volumes:
     - name: nginx-logs
       persistentVolumeClaim:
         claimName: pvc-1
-    - name: nginx-index
-      configMap:
-        name: nginx-index
 ---
 apiVersion: v1
 kind: Pod
@@ -51,6 +60,20 @@ metadata:
   labels:
     app: nginx
 spec:
+  initContainers:
+    - name: init
+      image: busybox
+      command:
+        [
+          "sh",
+          "-c",
+          'echo "Welcome to NGINX 1" > /usr/share/nginx/html/index.html',
+        ]
+      env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
   containers:
     - name: nginx
       image: nginx:stable
@@ -65,6 +88,3 @@ spec:
     - name: nginx-logs
       persistentVolumeClaim:
         claimName: pvc-2
-    - name: nginx-index
-      configMap:
-        name: nginx-index
