@@ -82,8 +82,6 @@ spec:
       volumeMounts:
         - name: nginx-logs
           mountPath: /var/log/nginx
-        - name: nginx-index
-          mountPath: /usr/share/nginx/html
   volumes:
     - name: nginx-logs
       persistentVolumeClaim:
