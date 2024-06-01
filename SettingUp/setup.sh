@@ -60,6 +60,10 @@ clear
 ##################### Update
 echo "Updating system..."
 
+rm -rf /etc/apt/sources.list.d/original.list
+
+cat ./sources.list >/etc/apt/sources.list
+
 echo "- Updating..."
 apt update
 echo "------------------------------------------ DONE ------------------------------------------"
@@ -69,7 +73,7 @@ apt full-upgrade -y
 echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "- Installing service..."
-apt install -y apt-transport-https ca-certificates curl gpg systemd wget openssh-server
+apt install -y apt-transport-https ca-certificates curl gpg systemd wget openssh-server openvswitch-switch-dpdk
 echo "------------------------------------------ DONE ------------------------------------------"
 
 ##################### Profile
