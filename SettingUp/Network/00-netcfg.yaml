@@ -3,5 +3,7 @@ network:
     enp0s3:
       dhcp4: true
     enp0s8:
-      dhcp4: true
+      dhcp4: false
+      addresses:
+        - 132.2.2./24
   version: 2
