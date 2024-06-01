@@ -1,11 +1,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-index
+  name: nginx-0-index
 data:
   index.html: |
-    <html>
-    <body>
-    <h1>hello exam</h1>
-    </body>
-    </html>
+    Hello from nginx-0
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-1-index
+data:
+  index.html: |
+    Hello from nginx-1
