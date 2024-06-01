@@ -53,6 +53,9 @@ if [ -z "$_host" ]; then
     exit 1
 fi
 
+exec 3>&1
+exec > >(tee -a tracking.log)
+
 clear
 ##################### Update
 echo "Updating system..."
@@ -89,3 +92,5 @@ cd ..
 cd K8S
 bash setup.sh -u $_user
 cd ..
+
+exec 1>&3
