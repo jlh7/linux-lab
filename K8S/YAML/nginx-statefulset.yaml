@@ -15,7 +15,6 @@ spec:
           mountPath: /var/log/nginx
         - name: nginx-index
           mountPath: /usr/share/nginx/html
-          subPath: index.html
         - name: nginx-conf
           mountPath: /etc/nginx/nginx.conf
           subPath: nginx.conf
@@ -47,7 +46,6 @@ spec:
           mountPath: /var/log/nginx
         - name: nginx-index
           mountPath: /usr/share/nginx/html
-          subPath: index.html
         - name: nginx-conf
           mountPath: /etc/nginx/nginx.conf
           subPath: nginx.conf
