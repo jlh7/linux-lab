@@ -17,7 +17,6 @@ spec:
           mountPath: /usr/share/nginx/html
         - name: nginx-conf
           mountPath: /etc/nginx/nginx.conf
-          subPath: nginx.conf
   volumes:
     - name: nginx-index
       configMap:
@@ -48,7 +47,6 @@ spec:
           mountPath: /usr/share/nginx/html
         - name: nginx-conf
           mountPath: /etc/nginx/nginx.conf
-          subPath: nginx.conf
   volumes:
     - name: nginx-index
       configMap:

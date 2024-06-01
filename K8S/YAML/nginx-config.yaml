@@ -3,14 +3,16 @@ kind: ConfigMap
 metadata:
   name: nginx-0-index
 data:
-  index.html: Welcome to Nginx 0
+  index.html: |
+    Welcome to Nginx 0
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: nginx-1-index
 data:
-  index.html: Welcome to Nginx 1
+  index.html: |
+    Welcome to Nginx 1
 ---
 apiVersion: v1
 kind: ConfigMap
