@@ -68,6 +68,10 @@ echo "- Upgrading..."
 apt full-upgrade -y
 echo "------------------------------------------ DONE ------------------------------------------"
 
+echo "- Installing service..."
+apt install -y apt-transport-https ca-certificates curl gpg systemd wget openssh-server
+echo "------------------------------------------ DONE ------------------------------------------"
+
 ##################### Profile
 cd Profile
 bash setup.sh -u $_user
