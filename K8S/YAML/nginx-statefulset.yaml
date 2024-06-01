@@ -5,39 +5,24 @@ metadata:
   labels:
     app: nginx
 spec:
-  initContainers:
-    - name: init
-      image: busybox
+  containers:
+    - name: nginx
+      image: nginx:stable
       command:
         [
           "sh",
           "-c",
           'echo "Welcome to Nginx 0" > /usr/share/nginx/html/index.html',
         ]
-      env:
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-      volumeMounts:
-        - name: nginx-index
-          mountPath: /usr/share/nginx/html
-  containers:
-    - name: nginx
-      image: nginx:stable
       ports:
         - containerPort: 80
       volumeMounts:
         - name: nginx-logs
           mountPath: /var/log/nginx
-        - name: nginx-index
-          mountPath: /usr/share/nginx/html
   volumes:
     - name: nginx-logs
       persistentVolumeClaim:
         claimName: pvc-1
-    - name: nginx-index
-      emptyDir: {}
 ---
 apiVersion: v1
 kind: Pod
@@ -46,39 +31,24 @@ metadata:
   labels:
     app: nginx
 spec:
-  initContainers:
-    - name: init
-      image: busybox
+  containers:
+    - name: nginx
+      image: nginx:stable
       command:
         [
           "sh",
           "-c",
           'echo "Welcome to NGINX 1" > /usr/share/nginx/html/index.html',
         ]
-      env:
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-      volumeMounts:
-        - name: nginx-index
-          mountPath: /usr/share/nginx/html
-  containers:
-    - name: nginx
-      image: nginx:stable
       ports:
         - containerPort: 80
       volumeMounts:
         - name: nginx-logs
           mountPath: /var/log/nginx
-        - name: nginx-index
-          mountPath: /usr/share/nginx/html
   volumes:
     - name: nginx-logs
       persistentVolumeClaim:
         claimName: pvc-2
-    - name: nginx-index
-      emptyDir: {}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
