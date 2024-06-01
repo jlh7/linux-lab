@@ -45,7 +45,7 @@ apt install -y kubelet kubeadm kubectl
 apt-mark hold kubelet kubeadm kubectl
 echo "------------------------------------------ DONE ------------------------------------------"
 
-cat ./docker.json >/etc/default/docker.json
+cat ./config.toml >>/etc/containerd/config.toml
 
 systemctl enable --now kubelet
 echo "------------------------------------------ DONE ------------------------------------------"
