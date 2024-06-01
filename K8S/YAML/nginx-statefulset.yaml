@@ -20,7 +20,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              if [ "$(hostname)" -eq "nginx-0" ]; then
+              if [ "$(hostname)" = "nginx-0" ]; then
                 ln -s /var/log/nginx-0 /var/log/nginx
               else
                 ln -s /var/log/nginx-1 /var/log/nginx
