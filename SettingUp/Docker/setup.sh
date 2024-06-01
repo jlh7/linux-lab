@@ -66,7 +66,7 @@ echo "Setting up docker..."
 echo "- Setting dockerd..."
 mkdir -p /etc/systemd/system/docker.service.d
 chmod a+rw -R /etc/systemd/system/docker.service.d
-cat ./override.conf >/etc/systemd/system/docker.service.d/override.conf
+cat ./override.cfg >/etc/systemd/system/docker.service.d/override.conf
 
 echo "- Restart docker..."
 systemctl daemon-reload

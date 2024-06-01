@@ -44,7 +44,7 @@ fi
 echo "Update ssh..."
 
 echo "- Config..."
-cat ./sshd_config >/etc/ssh/sshd_config.d/override.conf
+cat ./sshd.cfg >/etc/ssh/sshd_config.d/override.conf
 
 echo "- Restart..."
 systemctl restart ssh

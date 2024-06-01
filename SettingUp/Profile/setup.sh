@@ -52,7 +52,7 @@ source ~/.bashrc
 #update-grub
 
 echo "- Set fontsize..."
-cat ./console-setup >/etc/default/console-setup
+cat ./console-setup.cfg >/etc/default/console-setup
 update-initramfs -u
 
 echo "- Sudo without password..."

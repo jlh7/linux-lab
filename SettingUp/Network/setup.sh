@@ -47,7 +47,7 @@ echo "Updating node..."
 hostnamectl set-hostname $_host
 
 echo "- Setting network from file ..."
-cat ./hosts >/etc/hosts
+cat ./hosts.cfg >/etc/hosts
 cat ./01-netcfg.yaml >/etc/netplan/01-netcfg.yaml
 netplan apply
 echo "------------------------------------------ DONE ------------------------------------------"
