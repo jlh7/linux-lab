@@ -18,18 +18,6 @@ spec:
           image: nginx:stable
           ports:
             - containerPort: 80
-          volumeMounts:
-            - name: nginx-logs
-              mountPath: /var/log/nginx
-            - name: nginx-index
-              mountPath: /usr/share/nginx/html
-      volumes:
-        - name: nginx-index
-          configMap:
-            name: nginx-index
-        - name: nginx-logs
-          persistentVolumeClaim:
-            claimName: pvc-1
 ---
 apiVersion: v1
 kind: Pod
