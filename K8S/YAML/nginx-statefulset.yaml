@@ -13,13 +13,30 @@ spec:
       labels:
         app: nginx
     spec:
+      initContainers:
+        - name: init
+          image: busybox
+          command:
+            - /bin/sh
+            - -c
+            - |
+              if [ "$(hostname)" = "nginx-0" ]; then
+                ln -s /var/log/nginx-0 /var/log/nginx
+              else
+                ln -s /var/log/nginx-1 /var/log/nginx
+              fi
+          volumeMounts:
+            - name: nginx-logs-0
+              mountPath: /var/log/nginx-0
+            - name: nginx-logs-1
+              mountPath: /var/log/nginx-1
       containers:
         - name: nginx
           image: nginx
           ports:
             - containerPort: 80
           volumeMounts:
-            - name: nginx-logs-0
+            - name: nginx-logs
               mountPath: /var/log/nginx
             - name: nginx-index
               mountPath: /usr/share/nginx/html
