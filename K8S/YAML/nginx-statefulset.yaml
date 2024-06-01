@@ -8,18 +8,17 @@ spec:
   containers:
     - name: nginx
       image: nginx:stable
-      command:
-        [
-          "sh",
-          "-c",
-          'echo "Welcome to Nginx 0" > /usr/share/nginx/html/index.html',
-        ]
       ports:
         - containerPort: 80
       volumeMounts:
         - name: nginx-logs
           mountPath: /var/log/nginx
+        - name: nginx-index
+          mountPath: /usr/share/nginx/html
   volumes:
+    - name: nginx-index
+      configMap:
+        name: nginx-0-index
     - name: nginx-logs
       persistentVolumeClaim:
         claimName: pvc-1
@@ -34,18 +33,17 @@ spec:
   containers:
     - name: nginx
       image: nginx:stable
-      command:
-        [
-          "sh",
-          "-c",
-          'echo "Welcome to NGINX 1" > /usr/share/nginx/html/index.html',
-        ]
       ports:
         - containerPort: 80
       volumeMounts:
         - name: nginx-logs
           mountPath: /var/log/nginx
+        - name: nginx-index
+          mountPath: /usr/share/nginx/html
   volumes:
+    - name: nginx-index
+      configMap:
+        name: nginx-1-index
     - name: nginx-logs
       persistentVolumeClaim:
         claimName: pvc-2
