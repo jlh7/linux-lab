@@ -66,16 +66,26 @@ apt full-upgrade -y
 echo "------------------------------------------ DONE ------------------------------------------"
 
 ##################### Profile
-bash ./Profile/setup.sh -u $_user
+cd Profile
+bash setup.sh -u $_user
+cd ..
 
 ##################### Network
-bash ./Network/setup.sh -h $_host
+cd Network
+bash setup.sh -h $_host
+cd ..
 
 ##################### SSH
-bash ./SSH/setup.sh -u $_user
+cd SSH
+bash setup.sh -u $_user
+cd ..
 
 ##################### Docker
-bash ./Docker/setup.sh -u $_user
+cd Docker
+bash setup.sh -u $_user
+cd ..
 
 ##################### K8S
-bash ./K8S/setup.sh -u $_user
+cd K8S
+bash setup.sh -u $_user
+cd ..
