@@ -11,7 +11,7 @@
     name: pv-1
   spec:
     capacity:
-      storage: 500Mi
+      storage: 20Gi
     volumeMode: Filesystem
     accessModes:
       - ReadWriteOnce
@@ -26,7 +26,7 @@
     name: pv-2
   spec:
     capacity:
-      storage: 500Mi
+      storage: 20Gi
     volumeMode: Filesystem
     accessModes:
       - ReadWriteOnce
@@ -38,15 +38,15 @@
 
 - Bước 2: Áp dụng các tệp YAML từ máy của bạn hoặc từ master node:
 
-   ```bash
-   kubectl apply -f pv.yaml
-   ```
+  ```bash
+  kubectl apply -f pv.yaml
+  ```
 
 - Bước 3: Kiểm tra Persistent Volumes:
 
-   ```bash
-   kubectl get pv -o wide
-   ```
+  ```bash
+  kubectl get pv -o wide
+  ```
 
 ## Tạo 2 Persistent Volume Claim, gắn nó với 2 PV đã tạo ở trên
 
@@ -122,11 +122,11 @@
       - metadata:
           name: nginx-logs
         spec:
-          accessModes: [ "ReadWriteOnce" ]
+          accessModes: ["ReadWriteOnce"]
           storageClassName: "local-storage"
           resources:
             requests:
-              storage: 500Mi
+              storage: 20Gi
   ```
 
 - Bước 2: Áp dụng StatefulSet:
@@ -153,32 +153,32 @@
 
 - Bước 1: Tạo tệp YAML - [`nginx-portservice`](./YAML/nginx-portservice.yaml) cho Service
 
-   ```yaml
-   apiVersion: v1
-   kind: Service
-   metadata:
-     name: nginx-service
-   spec:
-     type: NodePort
-     selector:
-       app: nginx
-     ports:
-       - port: 8080
-         targetPort: 80
-         nodePort: 30808
-   ```
+  ```yaml
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: nginx-service
+  spec:
+    type: NodePort
+    selector:
+      app: nginx
+    ports:
+      - port: 8080
+        targetPort: 80
+        nodePort: 30808
+  ```
 
 - Bước 2: Áp dụng tệp YAML
 
-   ```bash
-   kubectl apply -f service.yaml
-   ```
+  ```bash
+  kubectl apply -f service.yaml
+  ```
 
 - Bước 3: Kiểm tra Service
 
-   ```bash
-   kubectl get service -o wide
-   ```
+  ```bash
+  kubectl get service -o wide
+  ```
 
 ## Tạo một tệp index.html trong nginx và in ra mà hình chữ "hello exam" khi curl tới nó
 
@@ -244,68 +244,68 @@
           storageClassName: "local-storage"
           resources:
             requests:
-              storage: 500Mi
+              storage: 20Gi
   ```
 
 - Bước 4: Kiểm tra bằng cách sử dụng curl
 
-   ```bash
-   curl <pod ip address>:30808
-   ```
+  ```bash
+  curl <pod ip address>:30808
+  ```
 
-   Hoặc
+  Hoặc
 
-   ```bash
-   curl <cluster ip address>:8080
-   ```
+  ```bash
+  curl <cluster ip address>:8080
+  ```
 
 ## Tạo 1000 request đến nginx
 
-  ```bash
-  for i in {1..1000};
-  do
-    curl <pod ip address>:30808;
-  done
-  ```
+```bash
+for i in {1..1000};
+do
+  curl <pod ip address>:30808;
+done
+```
 
 ## Kiểm tra access log của nginx pod 0
 
 - Bước 1: Xác định tên của các pods nginx
 
-   ```bash
-   kubectl get pods -l app=nginx
-   ```
+  ```bash
+  kubectl get pods -l app=nginx
+  ```
 
 - Bước 2: Kiểm tra access log của nginx
 
-   ```bash
-   kubectl exec <tên-pod-nginx> -- cat /var/log/nginx/access.log
-   ```
+  ```bash
+  kubectl exec <tên-pod-nginx> -- cat /var/log/nginx/access.log
+  ```
 
-   Hoặc xem "realtime"
+  Hoặc xem "realtime"
 
-   ```bash
-   kubectl exec <tên-pod-nginx> -- less +F /var/log/nginx/access.log
-   ```
+  ```bash
+  kubectl exec <tên-pod-nginx> -- less +F /var/log/nginx/access.log
+  ```
 
 ## Xóa nginx pod 0 rồi kiểm tra xem pod có tạo lại và có còn dữ liệu access log cũ không?
 
 - Bước 1: Xác định tên của các pods nginx
 
-   ```bash
-   kubectl get pods -l app=nginx
-   ```
+  ```bash
+  kubectl get pods -l app=nginx
+  ```
 
 - Bước 2: Xóa các pod
 
-   ```bash
-   kubectl delete pod <tên-pod-nginx>
-   ```
+  ```bash
+  kubectl delete pod <tên-pod-nginx>
+  ```
 
 - Bước 3: Lặp lại bước 1 để xem các pod của nginx có được tạo lại?
 
 - Bước 4: Kiểm tra dữ liệu access log cũ
 
-   ```bash
-   kubectl exec <tên-pod-nginx-vừa-tạo-lại> -- cat /var/log/nginx/access.log
-   ```
+  ```bash
+  kubectl exec <tên-pod-nginx-vừa-tạo-lại> -- cat /var/log/nginx/access.log
+  ```

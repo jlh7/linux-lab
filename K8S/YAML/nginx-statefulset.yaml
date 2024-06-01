@@ -35,4 +35,4 @@ spec:
         storageClassName: "local-storage"
         resources:
           requests:
-            storage: 500Mi
+            storage: 20Gi

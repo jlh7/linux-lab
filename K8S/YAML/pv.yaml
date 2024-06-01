@@ -4,7 +4,7 @@ metadata:
   name: pv-1
 spec:
   capacity:
-    storage: 500Mi
+    storage: 20Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
@@ -19,7 +19,7 @@ metadata:
   name: pv-2
 spec:
   capacity:
-    storage: 500Mi
+    storage: 20Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
