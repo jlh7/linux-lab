@@ -1,6 +1,8 @@
 sudo kubeadm init \
---apiserver-advertise-address 132.2.2.3 \
+--apiserver-advertise-address 192.168.56.101 \
 --control-plane-endpoint=m4st3r \
 --pod-network-cidr 10.240.0.0/16 \
 --service-cidr 10.96.0.0/16 \
 --token at0k3n.t0r3g1st3rn0d333
+
+sudo rm -rf $HOME/.kube && mkdir -p $HOME/.kube && sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && sudo chown $(id -u):$(id -g) $HOME/.kube/config

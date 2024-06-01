@@ -1,5 +1,2 @@
 [registry]
-insecure_registries = [
-  "registry.k8s.io",
-  "docker.io"
-]
+insecure_registries = ["registry.k8s.io", "docker.io"]
