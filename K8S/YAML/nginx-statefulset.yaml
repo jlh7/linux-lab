@@ -15,15 +15,18 @@ spec:
           mountPath: /var/log/nginx
         - name: nginx-index
           mountPath: /usr/share/nginx/html
+        - name: nginx-conf
+          mountPath: /etc/nginx/nginx.conf
   volumes:
     - name: nginx-index
       configMap:
         name: nginx-0-index
     - name: nginx-logs
-      configMap:
-        name: nginx-config
       persistentVolumeClaim:
         claimName: pvc-1
+    - name: nginx-conf
+      configMap:
+        name: nginx-config
 ---
 apiVersion: v1
 kind: Pod
@@ -42,15 +45,18 @@ spec:
           mountPath: /var/log/nginx
         - name: nginx-index
           mountPath: /usr/share/nginx/html
+        - name: nginx-conf
+          mountPath: /etc/nginx/nginx.conf
   volumes:
     - name: nginx-index
       configMap:
         name: nginx-1-index
     - name: nginx-logs
-      configMap:
-        name: nginx-config
       persistentVolumeClaim:
         claimName: pvc-2
+    - name: nginx-conf
+      configMap:
+        name: nginx-config
 ---
 apiVersion: apps/v1
 kind: StatefulSet
