@@ -47,9 +47,9 @@ echo "PS1='\[\033[01;32m\]\u\[\033[01;37m\]@\[\033[01;33m\]\h\[\033[01;31m\]:\[\
 echo "PS1='\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[00m\]\$ '" >>"/root/.bashrc"
 source ~/.bashrc
 
-echo "- Set screen resolution..."
-echo "GRUB_GFXPAYLOAD_LINUX=1024x768" >>/etc/default/grub
-update-grub
+#echo "- Set screen resolution..."
+#echo "GRUB_GFXPAYLOAD_LINUX=1024x768" >>/etc/default/grub
+#update-grub
 
 echo "- Set fontsize..."
 echo "ACTIVE_CONSOLES=\"/dev/tty[1-6]\"" >/etc/default/console-setup
