@@ -44,7 +44,7 @@ fi
 echo "Update ssh..."
 
 echo "- Config..."
-head -n +2 /etc/ssh/sshd_config >./tmp
+head -n -2 /etc/ssh/sshd_config >./tmp
 echo "Port 22022" >>./tmp
 echo "AllowUsers $_user" >>./tmp
 echo "UseDNS no" >>./tmp
