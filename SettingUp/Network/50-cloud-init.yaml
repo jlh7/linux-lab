@@ -5,5 +5,5 @@ network:
     enp0s8:
       dhcp4: false
       addresses:
-        - 132.2.2./24
+        - .../24
   version: 2
