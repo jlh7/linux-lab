@@ -1,24 +1,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-0-index
+  name: nginx-index
 data:
   index.html: |
     <html>
     <body>
     <h1>Node 0</h1>
-    </body>
-    </html>
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: nginx-1-index
-data:
-  index.html: |
-    <html>
-    <body>
-    <h1>Node 1</h1>
     </body>
     </html>

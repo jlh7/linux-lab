@@ -42,7 +42,7 @@ spec:
         claimName: pvc-1
     - name: nginx-index
       configMap:
-        name: nginx-0-index
+        name: nginx-index
 ---
 apiVersion: v1
 kind: Pod
@@ -67,4 +67,4 @@ spec:
         claimName: pvc-2
     - name: nginx-index
       configMap:
-        name: nginx-1-index
+        name: nginx-index
