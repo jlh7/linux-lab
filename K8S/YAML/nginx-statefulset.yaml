@@ -20,6 +20,8 @@ spec:
       configMap:
         name: nginx-0-index
     - name: nginx-logs
+      configMap:
+        name: nginx-config
       persistentVolumeClaim:
         claimName: pvc-1
 ---
@@ -45,6 +47,8 @@ spec:
       configMap:
         name: nginx-1-index
     - name: nginx-logs
+      configMap:
+        name: nginx-config
       persistentVolumeClaim:
         claimName: pvc-2
 ---

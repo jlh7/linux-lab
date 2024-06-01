@@ -11,3 +11,12 @@ metadata:
   name: nginx-1-index
 data:
   index.html: Welcome to Nginx 1
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  nginx.conf: |
+    error_log /var/log/nginx/error.log info;
+    access_log /var/log/nginx/access.log main;
