@@ -15,8 +15,6 @@ spec:
           mountPath: /var/log/nginx
         - name: nginx-index
           mountPath: /usr/share/nginx/html
-        - name: nginx-conf
-          mountPath: /etc/nginx/nginx.conf
   volumes:
     - name: nginx-index
       configMap:
@@ -24,9 +22,6 @@ spec:
     - name: nginx-logs
       persistentVolumeClaim:
         claimName: pvc-1
-    - name: nginx-conf
-      configMap:
-        name: nginx-config
 ---
 apiVersion: v1
 kind: Pod
@@ -45,8 +40,6 @@ spec:
           mountPath: /var/log/nginx
         - name: nginx-index
           mountPath: /usr/share/nginx/html
-        - name: nginx-conf
-          mountPath: /etc/nginx/nginx.conf
   volumes:
     - name: nginx-index
       configMap:
@@ -54,9 +47,6 @@ spec:
     - name: nginx-logs
       persistentVolumeClaim:
         claimName: pvc-2
-    - name: nginx-conf
-      configMap:
-        name: nginx-config
 ---
 apiVersion: apps/v1
 kind: StatefulSet
