@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: nginx-statefulset
+  name: nginx
 spec:
   serviceName: "nginx"
   replicas: 2
@@ -19,20 +19,17 @@ spec:
           ports:
             - containerPort: 80
           volumeMounts:
-            - name: nginx-logs
+            - name: nginx-logs-0
               mountPath: /var/log/nginx
-      #       - name: nginx-index
-      #         mountPath: /usr/share/nginx/html
-      # volumes:
-      #   - name: nginx-index
-      #     configMap:
-      #       name: nginx-index
-  volumeClaimTemplates:
-    - metadata:
-        name: nginx-logs
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        storageClassName: "local-storage"
-        resources:
-          requests:
-            storage: 20Gi
+            - name: nginx-index
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: nginx-index
+          configMap:
+            name: nginx-index
+        - name: nginx-logs-0
+          persistentVolumeClaim:
+            claimName: pvc-0
+        - name: nginx-logs-1
+          persistentVolumeClaim:
+            claimName: pvc-1
