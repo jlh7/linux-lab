@@ -44,12 +44,7 @@ fi
 echo "Update ssh..."
 
 echo "- Config..."
-head -n -2 /etc/ssh/sshd_config >./tmp
-echo "Port 22022" >>./tmp
-echo "AllowUsers $_user" >>./tmp
-echo "UseDNS no" >>./tmp
-cat ./tmp >/etc/ssh/sshd_config
-rm ./tmp
+cat ./sshd_config >/etc/ssh/sshd_config.d/override.conf
 
 echo "- Restart..."
 systemctl restart ssh

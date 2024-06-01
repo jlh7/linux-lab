@@ -45,7 +45,7 @@ apt install -y kubelet kubeadm kubectl
 apt-mark hold kubelet kubeadm kubectl
 echo "------------------------------------------ DONE ------------------------------------------"
 
-echo "{'insecure-registries':['registry.k8s.io']}" >> /etc/default/docker.json
+cat ./docker.json >/etc/default/docker.json
 
 systemctl enable --now kubelet
 echo "------------------------------------------ DONE ------------------------------------------"

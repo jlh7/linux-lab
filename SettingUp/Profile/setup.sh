@@ -52,12 +52,7 @@ source ~/.bashrc
 #update-grub
 
 echo "- Set fontsize..."
-echo "ACTIVE_CONSOLES=\"/dev/tty[1-6]\"" >/etc/default/console-setup
-echo "CHARMAP=\"UTF-8\"" >>/etc/default/console-setup
-echo "CODESET=\"Lat15\"" >>/etc/default/console-setup
-echo "FONTFACE=\"Fixed\"" >>/etc/default/console-setup
-echo "FONTSIZE=\"6x12\"" >>/etc/default/console-setup
-echo "VIDEOMODE=" >>/etc/default/console-setup
+cat ./console-setup >/etc/default/console-setup
 update-initramfs -u
 
 echo "- Sudo without password..."

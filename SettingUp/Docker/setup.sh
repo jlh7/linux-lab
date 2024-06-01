@@ -65,12 +65,8 @@ echo "Setting up docker..."
 
 echo "- Setting dockerd..."
 mkdir -p /etc/systemd/system/docker.service.d
-echo "[Service]" >"/etc/systemd/system/docker.service.d/override.conf"
-echo "ExecStart=" >>"/etc/systemd/system/docker.service.d/override.conf"
-echo "ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:43210" >>"/etc/systemd/system/docker.service.d/override.conf"
-echo "Restart=always" >>"/etc/systemd/system/docker.service.d/override.conf"
-echo "RestartSec=2" >>"/etc/systemd/system/docker.service.d/override.conf"
 chmod a+rw -R /etc/systemd/system/docker.service.d
+cat ./override.conf >/etc/systemd/system/docker.service.d/override.conf
 
 echo "- Restart docker..."
 systemctl daemon-reload
