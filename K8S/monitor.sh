@@ -21,3 +21,6 @@ kubectl get service -o wide
 echo ""
 echo "------------------------------------------ Config Maps ------------------------------------"
 kubectl get configmap -o wide
+echo ""
+echo "------------------------------------------ Secrets ------------------------------------"
+kubectl get secret -o wide
