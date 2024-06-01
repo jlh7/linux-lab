@@ -36,7 +36,10 @@ spec:
           ports:
             - containerPort: 80
           volumeMounts:
-            - mountPath: /var/log/nginx
+            - name: nginx-logs-0
+              mountPath: /var/log/nginx-0
+            - name: nginx-logs-1
+              mountPath: /var/log/nginx-1
             - name: nginx-index
               mountPath: /usr/share/nginx/html
       volumes:
