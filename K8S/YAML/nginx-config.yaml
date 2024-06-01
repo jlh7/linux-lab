@@ -4,7 +4,12 @@ metadata:
   name: nginx-0-index
 data:
   index.html: |
-    Hello from nginx-0
+    <html>
+    <body>
+    <h1>Node 0</h1>
+    </body>
+    </html>
+
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -12,4 +17,8 @@ metadata:
   name: nginx-1-index
 data:
   index.html: |
-    Hello from nginx-1
+    <html>
+    <body>
+    <h1>Node 1</h1>
+    </body>
+    </html>
