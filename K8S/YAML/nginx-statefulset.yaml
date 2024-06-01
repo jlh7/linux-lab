@@ -37,12 +37,12 @@ spec:
         - name: nginx-index
           mountPath: /usr/share/nginx/html
   volumes:
-    - name: nginx-index
-      configMap:
-        name: nginx-0-index
     - name: nginx-logs
       persistentVolumeClaim:
         claimName: pvc-1
+    - name: nginx-index
+      configMap:
+        name: nginx-0-index
 ---
 apiVersion: v1
 kind: Pod
@@ -62,9 +62,9 @@ spec:
         - name: nginx-index
           mountPath: /usr/share/nginx/html
   volumes:
-    - name: nginx-index
-      configMap:
-        name: nginx-1-index
     - name: nginx-logs
       persistentVolumeClaim:
         claimName: pvc-2
+    - name: nginx-index
+      configMap:
+        name: nginx-1-index
