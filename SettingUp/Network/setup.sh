@@ -49,7 +49,7 @@ hostnamectl set-hostname $_host
 echo "- Setting network from file ..."
 cat ./hosts.cfg >/etc/hosts
 rm -rf /etc/netplan/*.yaml
-cp ./00-netcfg.yaml /etc/netplan
-chmod 600 /etc/netplan/00-netcfg.yaml
+cp ./*.yaml /etc/netplan
+chmod 600 /etc/netplan/*.yaml
 netplan apply
 echo "------------------------------------------ DONE ------------------------------------------"
