@@ -12,7 +12,6 @@ if [ -z "$1" ]; then
 fi
 
 _host=''
-_ip=''
 _is_help=false
 
 while [ -n "$1" ]; do
