@@ -29,7 +29,7 @@ spec:
             name: nginx-index
         - name: nginx-logs-0
           persistentVolumeClaim:
-            claimName: pvc-0
+            claimName: pvc-1
         - name: nginx-logs-1
           persistentVolumeClaim:
-            claimName: pvc-1
+            claimName: pvc-2
