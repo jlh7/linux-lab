@@ -1,311 +1,93 @@
-# Làm việc với Persistent Volume
+# Container Orchestration Engine (COE) - K8S
 
-## Tạo 2 persistent volume, type là host path
+## Định nghĩa
 
-- Bước 1: Tạo tệp YAML - [`pv.yaml`](./YAML/pv.yaml) để tạo Persistent Volume
+Container Orchestration Engine là một hệ thống tự động hóa việc triển khai, quản lý, nhân rộng và kết nối mạng của các container. Nó giúp các nhà phát triển và quản trị hệ thống có thể triển khai ứng dụng trên quy mô lớn mà không cần lo lắng về cơ sở hạ tầng cơ bản.
 
-  ```yaml
-  apiVersion: v1
-  kind: PersistentVolume
-  metadata:
-    name: pv-1
-  spec:
-    capacity:
-      storage: 20Gi
-    volumeMode: Filesystem
-    accessModes:
-      - ReadWriteOnce
-    persistentVolumeReclaimPolicy: Retain
-    storageClassName: local-storage
-    hostPath:
-      path: "/k8s-data/pv1"
-  ---
-  apiVersion: v1
-  kind: PersistentVolume
-  metadata:
-    name: pv-2
-  spec:
-    capacity:
-      storage: 20Gi
-    volumeMode: Filesystem
-    accessModes:
-      - ReadWriteOnce
-    persistentVolumeReclaimPolicy: Retain
-    storageClassName: local-storage
-    hostPath:
-      path: "/k8s-data/pv2"
-  ```
+Ví dụ thực tế về việc sử dụng Container Orchestration Engine có thể kể đến **Kubernetes** (hay K8S), một nền tảng mã nguồn mở phổ biến cho việc quản lý container. Kubernetes giúp tự động hóa việc quản lý, mở rộng quy mô và triển khai ứng dụng dưới dạng container, loại bỏ nhiều quy trình thủ công liên quan đến việc triển khai và mở rộng các ứng dụng container hóa. Nó cho phép xây dựng các dịch vụ ứng dụng mở rộng qua nhiều container, lên lịch các container trên một cụm, mở rộng các container và quản lý tình trạng của chúng theo thời gian.
 
-- Bước 2: Áp dụng các tệp YAML từ máy của bạn hoặc từ master node:
+## Tính năng
 
-  ```bash
-  kubectl apply -f pv.yaml
-  ```
+Container Orchestration Engine cung cấp nhiều tính năng quan trọng để quản lý các container trong môi trường sản xuất, dưới đây là một số tính năng cơ bản:
 
-- Bước 3: Kiểm tra Persistent Volumes:
+1. **Khởi động và dừng container**:
 
-  ```bash
-  kubectl get pv -o wide
-  ```
+   - Tự động hóa việc khởi tạo và ngừng hoạt động của các container.
+   - **Ví dụ**: Kubernetes sử dụng các `Pods` để khởi động container. Khi một `Pod` không còn cần thiết, Kubernetes sẽ tự động dừng và xóa `Pod` đó.
 
-## Tạo 2 Persistent Volume Claim, gắn nó với 2 PV đã tạo ở trên
+2. **Lập lịch**:
 
-- Bước 1: Tạo tệp YAML - [`pvc.yaml`](./YAML/pvc.yaml) cho Persistent Volume Claim
+   - Xác định thời gian chạy cụ thể cho từng container.
+   - **Ví dụ**: Kubernetes có một bộ lập lịch (`Scheduler`) để quyết định container nào sẽ chạy trên node nào dựa trên tài nguyên có sẵn và yêu cầu của container.
 
-  ```yaml
-  apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: pvc-1
-  spec:
-    storageClassName: local-storage
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 1Gi
-  ---
-  apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: pvc-2
-  spec:
-    storageClassName: local-storage
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 1Gi
-  ```
+3. **Quản lý tài nguyên**:
 
-- Bước 3: Áp dụng các tệp YAML
+   - Phân phối và giới hạn tài nguyên như CPU, bộ nhớ, và dung lượng lưu trữ cho các container.
+   - **Ví dụ**: Kubernetes cho phép định nghĩa `Requests` và `Limits` cho tài nguyên để đảm bảo rằng các container có đủ tài nguyên cần thiết và không sử dụng quá mức cho phép.
 
-  ```bash
-  kubectl apply -f pvc.yaml
-  ```
+4. **Tính sẵn có và khả năng phục hồi**:
 
-- Bước 4: Kiểm tra Persistent Volume Claims
+   - Đảm bảo ứng dụng vẫn hoạt động ngay cả khi có sự cố với container hoặc máy chủ.
+   - **Ví dụ**: Kubernetes sử dụng `ReplicaSets` để duy trì số lượng bản sao của container. Nếu một container gặp sự cố, `ReplicaSet` sẽ tự động khởi động một container mới để thay thế.
 
-  ```bash
-  kubectl get pvc -o wide
-  ```
+5. **Mở rộng quy mô**:
 
-## Tạo 1 statefulset với image nginx, có 2 pod, cấu hình cho mỗi pod gắn với 1 PVC đã tạo ở trên, mount volume sao cho log của nginx được ghi ra PV
+   - Tăng hoặc giảm số lượng container dựa trên nhu cầu thực tế và khối lượng công việc.
+   - **Ví dụ**: Kubernetes có khả năng `auto-scaling` thông qua `Horizontal Pod Autoscaler`, điều chỉnh số lượng `Pods` dựa trên sử dụng CPU hoặc các chỉ số khác.
 
-- Bước 1: Tạo tệp YAML - [`nginx-statefulset`](./YAML/nginx-statefulset.yaml) cho StatefulSet:
+6. **Cân bằng tải và định tuyến lưu lượng**:
 
-  ```yaml
-  apiVersion: apps/v1
-  kind: StatefulSet
-  metadata:
-    name: nginx-statefulset
-  spec:
-    serviceName: "nginx"
-    replicas: 2
-    selector:
-      matchLabels:
-        app: nginx
-    template:
-      metadata:
-        labels:
-          app: nginx
-      spec:
-        containers:
-          - name: nginx
-            image: nginx
-            ports:
-              - containerPort: 80
-            volumeMounts:
-              - name: nginx-logs
-                mountPath: /var/log/nginx
-    volumeClaimTemplates:
-      - metadata:
-          name: nginx-logs
-        spec:
-          accessModes: ["ReadWriteOnce"]
-          storageClassName: "local-storage"
-          resources:
-            requests:
-              storage: 20Gi
-  ```
+   - Phân phối lưu lượng mạng đến các container một cách hiệu quả.
+   - **Ví dụ**: Kubernetes sử dụng `Services` và `Ingress` để quản lý lưu lượng mạng và cân bằng tải giữa các `Pods`.
 
-- Bước 2: Áp dụng StatefulSet:
+7. **Giám sát và bảo mật**:
 
-  ```bash
-  kubectl apply -f nginx-config.yaml
-  ```
+   - Theo dõi tình trạng hoạt động và đảm bảo an ninh cho các container.
+   - **Ví dụ**: Kubernetes tích hợp với các công cụ như `Prometheus` để giám sát và `Network Policies` để kiểm soát lưu lượng mạng giữa các `Pods`, tăng cường bảo mật.
 
-- Bước 3: Kiểm tra:
+## K8S
 
-  - Kiểm tra trạng thái của StatefulSet:
+### Concept
 
-    ```bash
-    kubectl get statefulset -o wide
-    ```
+Khi khởi tạo một cụm Kubernetes sử dụng `kubeadm`, nó sẽ tự động pull một loạt các image container cần thiết để thiết lập và chạy cụm. Dưới đây là phân tích của các image mà `kubeadm` thường pull về:
 
-  - Kiểm tra log của Nginx:
+1. **kube-apiserver**:
 
-    ```bash
-    kubectl logs <pod name> -c nginx
-    ```
+   - Đây là server API của Kubernetes, nơi mà tất cả các yêu cầu RESTful được xử lý. Nó cung cấp giao diện cho người dùng, các dịch vụ nội bộ và các thành phần khác của cụm.
+   - Là điểm trung tâm của cụm Kubernetes, nơi tiếp nhận và xử lý tất cả các yêu cầu API. Nó cần thiết để cung cấp giao diện cho người dùng và các thành phần khác của cụm.
+   - **Ví dụ**: Khi chạy lệnh `kubectl get pods`, lệnh này sẽ gửi yêu cầu đến `kube-apiserver` để truy xuất thông tin về các Pods.
 
-## Tạo 1 service để expose statefullset trên (tên service là nginx-service)
+2. **kube-controller-manager**:
 
-- Bước 1: Tạo tệp YAML - [`nginx-portservice`](./YAML/nginx-portservice.yaml) cho Service
+   - Chứa các bộ điều khiển mà theo dõi trạng thái của cụm và thực hiện các thay đổi để đạt được trạng thái mong muốn.
+   - **Ví dụ**: `ReplicaSet` đảm bảo số lượng Pods mong muốn luôn được duy trì. Nếu một Pod bị hỏng, `kube-controller-manager` sẽ tạo một Pod mới để thay thế.
 
-  ```yaml
-  apiVersion: v1
-  kind: Service
-  metadata:
-    name: nginx-service
-  spec:
-    type: NodePort
-    selector:
-      app: nginx
-    ports:
-      - port: 8080
-        targetPort: 80
-        nodePort: 30808
-  ```
+3. **kube-scheduler**:
 
-- Bước 2: Áp dụng tệp YAML
+   - Xác định node nào sẽ chạy Pod dựa trên các yêu cầu tài nguyên và các ràng buộc khác.
+   - Quyết định Pod nào sẽ chạy trên node nào dựa trên tài nguyên có sẵn và yêu cầu của Pod.
+   - **Ví dụ**: Khi một Pod mới được tạo, `kube-scheduler` sẽ chọn một node phù hợp để chạy Pod đó, dựa trên các yêu cầu tài nguyên và sự sẵn có của node.
 
-  ```bash
-  kubectl apply -f service.yaml
-  ```
+4. **kube-proxy**:
 
-- Bước 3: Kiểm tra Service
+   - Là một proxy mạng chạy trên mỗi node trong cụm, giúp duy trì các quy tắc mạng và cho phép giao tiếp giữa các dịch vụ.
+   - Duy trì các quy tắc mạng trên mỗi node, cho phép giao tiếp giữa các dịch vụ trong cụm.
+   - **Ví dụ**: `kube-proxy` có thể cân bằng tải lưu lượng mạng đến các Pods của một dịch vụ, đảm bảo rằng không có Pod nào bị quá tải.
 
-  ```bash
-  kubectl get service -o wide
-  ```
+5. **pause**:
 
-## Tạo một tệp index.html trong nginx và in ra mà hình chữ "hello exam" khi curl tới nó
+   - Image này được sử dụng để tạo ra một container cơ bản mà các container khác trong cùng Pod có thể chia sẻ mạng và tài nguyên lưu trữ.
+   - Image này được sử dụng làm container cơ bản cho mỗi Pod, nơi các container khác trong Pod có thể chia sẻ mạng và tài nguyên lưu trữ.
+   - **Ví dụ**: Container `pause` hoạt động như một điểm neo cho các container khác trong cùng Pod, giữ cho chúng cùng một namespace mạng.
 
-- Bước 1: Tạo tệp YAML - [`nginx-config.yaml`](./YAML/nginx-config.yaml) để confing tệp index.html
+6. **etcd**:
 
-  ```yaml
-  apiVersion: v1
-  kind: ConfigMap
-  metadata:
-    name: nginx-index
-  data:
-    index.html: |
-      <html>
-      <body>
-      <h1>hello exam</h1>
-      </body>
-      </html>
-  ```
+   - Là cơ sở dữ liệu phân tán được sử dụng để lưu trữ tất cả dữ liệu cấu hình và trạng thái của cụm.
+   - Là cơ sở dữ liệu phân tán lưu trữ tất cả dữ liệu cấu hình và trạng thái của cụm, đóng vai trò là 'bộ nhớ' cho cụm.
+   - **Ví dụ**: Khi thay đổi cấu hình của một dịch vụ, thông tin này được lưu trữ trong `etcd`, và `kube-apiserver` sẽ truy vấn `etcd` để lấy thông tin cấu hình mới.
 
-- Bước 2: Áp dụng tệp config
+7. **coredns**:
 
-  ```bash
-  kubectl apply -f nginx-config.yaml
-  ```
-
-- Bước 3: Sửa tệp YAML - [`nginx-statefulset`](./YAML/nginx-statefulset.yaml) như sau:
-
-  ```yaml
-  apiVersion: apps/v1
-  kind: StatefulSet
-  metadata:
-    name: nginx-statefulset
-  spec:
-    serviceName: "nginx"
-    replicas: 2
-    selector:
-      matchLabels:
-        app: nginx
-    template:
-      metadata:
-        labels:
-          app: nginx
-      spec:
-        containers:
-          - name: nginx
-            image: nginx
-            ports:
-              - containerPort: 80
-            volumeMounts:
-              - name: nginx-logs
-                mountPath: /var/log/nginx
-              - name: nginx-index
-                mountPath: /usr/share/nginx/html
-        volumes:
-          - name: nginx-index
-            configMap:
-              name: nginx-index
-    volumeClaimTemplates:
-      - metadata:
-          name: nginx-logs
-        spec:
-          accessModes: ["ReadWriteOnce"]
-          storageClassName: "local-storage"
-          resources:
-            requests:
-              storage: 20Gi
-  ```
-
-- Bước 4: Kiểm tra bằng cách sử dụng curl
-
-  ```bash
-  curl <pod ip address>:30808
-  ```
-
-  Hoặc
-
-  ```bash
-  curl <cluster ip address>:8080
-  ```
-
-## Tạo 1000 request đến nginx
-
-```bash
-for i in {1..1000};
-do
-  curl <pod ip address>:30808;
-done
-```
-
-## Kiểm tra access log của nginx pod 0
-
-- Bước 1: Xác định tên của các pods nginx
-
-  ```bash
-  kubectl get pods -l app=nginx
-  ```
-
-- Bước 2: Kiểm tra access log của nginx
-
-  ```bash
-  kubectl exec <tên-pod-nginx> -- cat /var/log/nginx/access.log
-  ```
-
-  Hoặc xem "realtime"
-
-  ```bash
-  kubectl exec <tên-pod-nginx> -- less +F /var/log/nginx/access.log
-  ```
-
-## Xóa nginx pod 0 rồi kiểm tra xem pod có tạo lại và có còn dữ liệu access log cũ không?
-
-- Bước 1: Xác định tên của các pods nginx
-
-  ```bash
-  kubectl get pods -l app=nginx
-  ```
-
-- Bước 2: Xóa các pod
-
-  ```bash
-  kubectl delete pod <tên-pod-nginx>
-  ```
-
-- Bước 3: Lặp lại bước 1 để xem các pod của nginx có được tạo lại?
-
-- Bước 4: Kiểm tra dữ liệu access log cũ
-
-  ```bash
-  kubectl exec <tên-pod-nginx-vừa-tạo-lại> -- cat /var/log/nginx/access.log
-  ```
+   - Là một DNS server có thể được sử dụng trong cụm Kubernetes để cung cấp tên miền cho các dịch vụ và Pod.
+   - Cung cấp dịch vụ phân giải tên miền trong cụm, cho phép các dịch vụ và Pods giao tiếp với nhau thông qua tên miền.
+   - **Ví dụ**: Khi một Pod cần giao tiếp với dịch vụ khác, `coredns` sẽ giúp chuyển đổi tên dịch vụ thành địa chỉ IP tương ứng để giao tiếp có thể diễn ra.
