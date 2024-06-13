@@ -51,7 +51,7 @@ mkdir -p "registry.k8s.io"
 tee <<EOF >registry.k8s.io/hosts.toml
 server = "https://registry.k8s.io"
 [host."http://registry.k8s.io"]
-  capabilities = ["pull", "resolve", "push"]
+  capabilities = ["pull", "resolve"]
   skip_verify = true
 EOF
 
@@ -59,7 +59,7 @@ mkdir -p "$_ip:55055"
 tee <<EOF >"$_ip:55055/hosts.toml"
 server = "https://$_ip:55055"
 [host."http://$_ip:55055"]
-  capabilities = ["pull", "resolve", "push"]
+  capabilities = ["pull", "resolve"]
   skip_verify = true
 EOF
 

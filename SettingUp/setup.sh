@@ -60,9 +60,9 @@ clear
 ##################### Update
 echo "Updating system..."
 
-rm -rf /etc/apt/sources.list.d/original.list
+#rm -rf /etc/apt/sources.list.d/original.list
 
-cat ./sources.list >/etc/apt/sources.list
+#cat ./sources.list >/etc/apt/sources.list
 
 echo "- Updating..."
 apt update
@@ -98,7 +98,7 @@ cd ..
 
 ##################### K8S
 cd K8S
-bash setup.sh -u $_user
+bash setup.sh -ip 10.111.1.101
 cd ..
 
 exec 1>&3
