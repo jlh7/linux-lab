@@ -44,7 +44,7 @@ fi
 sed -i 's|config_path = \"\"|config_path = \"/etc/containerd/certs.d\"|g' /etc/containerd/config.toml
 
 mkdir -p /etc/containerd/certs.d
-p=pwd
+p=$(pwd)
 cd /etc/containerd/certs.d
 
 mkdir -p "registry.k8s.io"
