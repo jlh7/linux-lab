@@ -3,19 +3,20 @@ kind: PersistentVolume
 metadata:
   name: db-server-pv
 spec:
-  capacity:
-    storage: 20Gi
+  storageClassName: db-server-sc
   accessModes:
     - ReadWriteMany
-  nfs:
-    path: /mnt/nfs_share
-    server: 10.111.1.101
+  capacity:
+    storage: 20Gi
+  hostPath:
+    path: "/k8s-data/db-server"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: db-server-pvc
 spec:
+  storageClassName: db-server-sc
   accessModes:
     - ReadWriteMany
   resources:
