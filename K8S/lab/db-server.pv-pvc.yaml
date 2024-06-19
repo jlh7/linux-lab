@@ -5,20 +5,31 @@ metadata:
 spec:
   storageClassName: db-server-sc
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   capacity:
-    storage: 20Gi
+    storage: 30Gi
   hostPath:
     path: "/k8s-data/db-server"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: db-server-pvc
+  name: db-read-pvc
 spec:
   storageClassName: db-server-sc
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 20Gi
+      storage: 15Gi
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-write-pvc
+spec:
+  storageClassName: db-server-sc
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 15Gi
