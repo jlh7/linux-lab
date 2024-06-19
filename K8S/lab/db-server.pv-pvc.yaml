@@ -4,7 +4,7 @@ metadata:
   name: db-server-pv
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   capacity:
     storage: 30Gi
   hostPath:
@@ -17,10 +17,10 @@ metadata:
 spec:
   volumeName: db-server-pv
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 15Gi
+      storage: 10Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -29,7 +29,7 @@ metadata:
 spec:
   volumeName: db-server-pv
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 15Gi
+      storage: 10Gi
