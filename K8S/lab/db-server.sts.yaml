@@ -50,7 +50,7 @@ spec:
       volumes:
         - name: mysql-storage
           persistentVolumeClaim:
-            claimName: db-read-pvc
+            claimName: db-server-pvc
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -104,4 +104,4 @@ spec:
       volumes:
         - name: mysql-storage
           persistentVolumeClaim:
-            claimName: db-write-pvc
+            claimName: db-server-pvc
