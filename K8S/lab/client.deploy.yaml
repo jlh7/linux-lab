@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-result
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: client-result
+  template:
+    metadata:
+      labels:
+        app: client-result
+    spec:
+      containers:
+        - name: result-client
+          image: 10.111.1.101:55055/result-client
+          ports:
+            - containerPort: 80
+          env:
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: config-map
+                  key: mysql-read-host
+            - name: DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: config-map
+                  key: mysql-database
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: mysql-username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: mysql-password
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: client-web
+  template:
+    metadata:
+      labels:
+        app: client-web
+    spec:
+      containers:
+        - name: web-client
+          image: 10.111.1.101:55055/web-client
+          ports:
+            - containerPort: 80
+          env:
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: config-map
+                  key: mysql-write-host
+            - name: DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: config-map
+                  key: mysql-database
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: mysql-username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: mysql-password

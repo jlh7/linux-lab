@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map
+data:
+  mysql-read-host: db-reader-svc
+  mysql-write-host: db-writer-svc
+  mysql-database: phonebook

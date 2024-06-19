@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-result-svc
+spec:
+  selector:
+    app: client-result
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-web-svc
+spec:
+  selector:
+    app: client-web
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
