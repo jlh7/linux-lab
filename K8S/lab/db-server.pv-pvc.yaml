@@ -3,7 +3,6 @@ kind: PersistentVolume
 metadata:
   name: db-server-pv
 spec:
-  storageClassName: db-server-sc
   accessModes:
     - ReadWriteOnce
   capacity:
@@ -16,7 +15,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: db-read-pvc
 spec:
-  storageClassName: db-server-sc
+  volumeName: db-server-pv
   accessModes:
     - ReadWriteOnce
   resources:
@@ -28,7 +27,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: db-write-pvc
 spec:
-  storageClassName: db-server-sc
+  volumeName: db-server-pv
   accessModes:
     - ReadWriteOnce
   resources:
