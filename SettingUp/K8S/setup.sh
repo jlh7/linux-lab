@@ -5,12 +5,6 @@ if [ $(id -u) -ne 0 ]; then
   exit 1
 fi
 
-if [ -z "$1" ]; then
-  echo '-ip <ip registry>'
-  echo '--help for help'
-  exit 1
-fi
-
 _ip=''
 _is_help=false
 
@@ -75,6 +69,10 @@ echo "- Installing k8s..."
 apt install -y kubelet kubeadm kubectl
 apt-mark hold kubelet kubeadm kubectl
 echo "------------------------------------------ DONE ------------------------------------------"
+
+if [ -z "$_ip" ]; then
+  _ip=$(cat ../Network/hosts.cfg | grep vm-1 | awk '{printf $1}')
+fi
 
 bash ./config.sh -ip $_ip
 

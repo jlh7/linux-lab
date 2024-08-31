@@ -98,7 +98,7 @@ cd ..
 
 ##################### K8S
 cd K8S
-bash setup.sh -ip 10.111.1.101
+bash setup.sh
 cd ..
 
 exec 1>&3

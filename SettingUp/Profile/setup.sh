@@ -51,9 +51,9 @@ source ~/.bashrc
 # cat ./grub.cfg >>/etc/default/grub
 # update-grub
 
-echo "- Set fontsize..."
-cat ./console-setup.cfg >/etc/default/console-setup
-update-initramfs -u
+# echo "- Set fontsize..."
+# cat ./console-setup.cfg >/etc/default/console-setup
+# update-initramfs -u
 
 echo "- Sudo without password..."
 echo "$_user ALL=(ALL:ALL) NOPASSWD: ALL" >"/etc/sudoers.d/$_user"
