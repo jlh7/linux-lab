@@ -1,0 +1,2 @@
+# MEAN Stack Sample Application
+
