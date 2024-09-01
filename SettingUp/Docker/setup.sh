@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ $(id -u) -ne 0 ]; then
-  echo "Please run as root mode"
-  exit 1
-fi
-
 if [ -z "$1" ]; then
   echo '-u <username>'
   echo '--help for help'
@@ -43,34 +38,34 @@ fi
 echo "Installing docker..."
 
 echo "- Add Docker's official GPG key"
-install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-chmod a+r /etc/apt/keyrings/docker.asc
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
 
 echo "- Add the repository to Apt sources"
-mkdir -p /etc/apt/sources.list.d
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" >>/etc/apt/sources.list.d/docker.list
-apt update
+sudo mkdir -p /etc/apt/sources.list.d
+sudo echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(sudo . /etc/os-release && sudo echo "$VERSION_CODENAME") stable" >>/etc/apt/sources.list.d/docker.list
+full-update-system
 echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "- Installing docker..."
-apt install docker-ce -y
+sudo apt install docker-ce -y
 echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "Setting up docker..."
 
 echo "- Setting dockerd..."
-mkdir -p /etc/systemd/system/docker.service.d
-chmod a+rw -R /etc/systemd/system/docker.service.d
+sudo mkdir -p /etc/systemd/system/docker.service.d
+sudo chmod a+rw -R /etc/systemd/system/docker.service.d
 cat ./override.cfg >/etc/systemd/system/docker.service.d/override.conf
 
 echo "- Restart docker..."
-systemctl daemon-reload
-systemctl restart docker
-systemctl enable docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+sudo systemctl enable docker
 echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "- Add user to docker..."
-usermod -aG docker $_user
+sudo usermod -aG docker $_user
 
 echo "------------------------------------------ DONE ------------------------------------------"

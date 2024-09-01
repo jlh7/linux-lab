@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ $(id -u) -ne 0 ]; then
-  echo "Please run as root mode"
-  exit 1
-fi
-
 if [ -z "$1" ]; then
   echo '-u <username>'
   echo '--help for help'
@@ -45,9 +40,9 @@ echo "Update ssh..."
 
 echo "- Config..."
 vim ./sshd.cfg
-cat ./sshd.cfg >/etc/ssh/sshd_config.d/override.conf
+sudo cat ./sshd.cfg >/etc/ssh/sshd_config.d/override.conf
 
 echo "- Restart..."
-systemctl restart ssh
-systemctl enable ssh --now
+sudo systemctl restart ssh
+sudo systemctl enable ssh --now
 echo "------------------------------------------ DONE ------------------------------------------"
