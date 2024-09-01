@@ -1,14 +1,19 @@
 services:  
   server:
     image: mean-server
+    name: mean-server
     ports:
       - '3000:5200'    
     depends_on:      
       - mongodb
     environment:
-      ATLAS_URI: mongodb://mongodb:27017/meanStackExample?retryWrites=true&w=majority  
+      ATLAS_URI: mongodb+srv://root:example@mongodb:27017/meanStackExample?retryWrites=true&w=majority  
   mongodb:    
     image: mongodb/mongodb-community-server:5.0-ubuntu2004    
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
     volumes:      
       - mongo-data:/data/db
     ports:      
