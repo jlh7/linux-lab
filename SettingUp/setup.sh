@@ -14,49 +14,20 @@ fi
 
 _user=''
 _host=''
-_is_help=false
 
-while [ -n "$1" ]; do
-    case "$1" in
-    -u)
-        _user="$2"
-        shift 1
-        ;;
-    -h)
-        _host="$2"
-        shift 1
-        ;;
-    --help)
-        _is_help=true
-        break
-        ;;
-    *)
-        echo "'$1' is valid!"
-        ;;
-    esac
-    shift 1
+while [ -z "$_user" ]; do
+    echo -n "Please, input username:"
+    read _user
 done
-
-if [ "$_is_help" = true ]; then
-    echo '-u <username>'
-    echo '-h <hostname>'
-    exit 1
-fi
-
-if [ -z "$_user" ]; then
-    echo "Please provide username (-u) as an argument when running the script"
-    exit 1
-fi
-
-if [ -z "$_host" ]; then
-    echo "Please provide hostname (-h) as an argument when running the script"
-    exit 1
-fi
+while [ -z "$_host" ]; do
+    echo -n "Please, input hostname:"
+    read _host
+done
 
 date=$(date '+%H:%M:%S.%Y-%m-%d')
 
-# exec 3>&1
-# exec > >(tee -a $date.log)
+exec 3>&1
+exec > >(tee -a /var/log/startUp.$date.log)
 
 clear
 ##################### Update
@@ -65,12 +36,6 @@ echo "Updating system..."
 echo "- Installing service..."
 apt install -y vim apt-transport-https ca-certificates curl gpg systemd wget openssh-server openvswitch-switch-dpdk
 echo "------------------------------------------ DONE ------------------------------------------"
-
-# Install debian-goodies if not already installed
-if ! dpkg -l | grep -q debian-goodies; then
-    echo "Installing debian-goodies..."
-    sudo apt-get install -y debian-goodies
-fi
 
 vim ./sources.list
 if [ $(cat sources.list | wc -l) -gt 0 ]; then
@@ -85,7 +50,6 @@ sudo apt full-upgrade -y
 sudo snap refresh
 sudo apt remove -y
 sudo apt autoclean -y
-sudo checkrestart | grep 'service ' | awk '{print $3}' | xargs -r -n1 sudo systemctl restart
 EOF
 chmod +x /bin/full-update-system
 
@@ -93,14 +57,14 @@ echo "- Updating..."
 sudo full-update-system
 echo "------------------------------------------ DONE ------------------------------------------"
 
-##################### Profile
-cd Profile
-bash setup.sh -u $_user
-cd ..
-
 ##################### Network
 cd Network
 bash setup.sh -h $_host
+cd ..
+
+##################### Profile
+cd Profile
+bash setup.sh -u $_user
 cd ..
 
 ##################### SSH
@@ -122,6 +86,6 @@ echo "- Updating..."
 sudo full-update-system
 echo "------------------------------------------ DONE ------------------------------------------"
 
-# exec 1>&3
+exec 1>&3
 
 reboot
