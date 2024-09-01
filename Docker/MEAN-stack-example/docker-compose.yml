@@ -2,9 +2,10 @@ services:
   mongodb:    
     image: mongodb/mongodb-community-server:5.0-ubuntu2004    
     container_name: mongo
+    restart: always
     environment:
-      MONGODB_INITDB_ROOT_USERNAME: root
-      MONGODB_INITDB_ROOT_PASSWORD: example
+      MONGODB_INITDB_ROOT_USERNAME: test
+      MONGODB_INITDB_ROOT_PASSWORD: test
     ports:      
       - '27017:27017' 
   server:
@@ -15,4 +16,4 @@ services:
     depends_on:
       - mongodb
     environment:
-      ATLAS_URI: mongodb://root:example@mongo:27017/meanStackExample?retryWrites=true&w=majority 
+      ATLAS_URI: mongodb://test:test@mongodb:27017/meanStackExample?retryWrites=true&w=majority 
