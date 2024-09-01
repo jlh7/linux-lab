@@ -41,6 +41,10 @@ if [ -z "$_host" ]; then
   exit 1
 fi
 
+echo "- Installing service..."
+apt install -y openvswitch-switch-dpdk
+echo "------------------------------------------ DONE ------------------------------------------"
+
 echo "Updating node..."
 
 hostnamectl set-hostname $_host

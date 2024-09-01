@@ -63,7 +63,7 @@ clear
 echo "Updating system..."
 
 echo "- Installing service..."
-apt install -y vim apt-transport-https ca-certificates curl gpg systemd wget openssh-server openvswitch-switch-dpdk
+apt install -y vim apt-transport-https ca-certificates curl gpg systemd wget openssh-server
 echo "------------------------------------------ DONE ------------------------------------------"
 
 vim ./sources.list
