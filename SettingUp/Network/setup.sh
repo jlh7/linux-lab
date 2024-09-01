@@ -41,21 +41,15 @@ if [ -z "$_host" ]; then
   exit 1
 fi
 
-echo "- Installing service..."
-apt install -y openvswitch-switch-dpdk
-echo "------------------------------------------ DONE ------------------------------------------"
-
 echo "Updating node..."
 
 hostnamectl set-hostname $_host
 
 vim ./hosts.cfg
-vim ./50-cloud-init.yaml
+vim ./00-installer-config.yaml
 
 echo "- Setting network from file ..."
 cat ./hosts.cfg >/etc/hosts
-rm -rf /etc/netplan/*.yaml
-cp ./*.yaml /etc/netplan
-chmod 600 /etc/netplan/*.yaml
-sudo netplan apply
+cat ./00-installer-config.yaml >/etc/netplan/00-installer-config.yaml
+netplan apply
 echo "------------------------------------------ DONE ------------------------------------------"
