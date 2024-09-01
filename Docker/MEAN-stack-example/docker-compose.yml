@@ -1,7 +1,7 @@
 services:  
   server:
     image: mean-server
-    name: mean-server
+    container_name: mean-server
     ports:
       - '3000:5200'    
     depends_on:      
