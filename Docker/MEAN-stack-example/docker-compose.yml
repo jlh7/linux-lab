@@ -4,7 +4,7 @@ services:
     ports:
       - '3000:5200'    
     depends_on:      
-      - mongo
+      - mongodb
     environment:
       ATLAS_URI: mongodb://mongodb:27017/meanStackExample?retryWrites=true&w=majority  
   mongodb:    
