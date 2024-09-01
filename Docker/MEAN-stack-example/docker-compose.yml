@@ -16,4 +16,4 @@ services:
     depends_on:
       - mongodb
     environment:
-      ATLAS_URI: mongodb://test:test@mongodb:27017/meanStackExample?retryWrites=true&w=majority 
+      ATLAS_URI: mongodb://test:test@mongodb:27017/mean-mongod
