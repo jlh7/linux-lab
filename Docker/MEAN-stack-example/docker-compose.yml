@@ -1,7 +1,7 @@
 services:  
   mongodb:    
     image: mongodb/mongodb-community-server:5.0-ubuntu2004    
-    container_name: mongo
+    container_name: mean-mongodb
     restart: always
     environment:
       MONGODB_INITDB_ROOT_USERNAME: test
@@ -16,4 +16,4 @@ services:
     depends_on:
       - mongodb
     environment:
-      ATLAS_URI: mongodb://test:test@mongodb:27017/mean-mongod
+      ATLAS_URI: mongodb://test:test@mongodb:27017/mean-mongodb
