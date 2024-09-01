@@ -110,4 +110,10 @@ cd K8S
 bash setup.sh
 cd ..
 
+echo "- Updating..."
+sudo full-update-system
+echo "------------------------------------------ DONE ------------------------------------------"
+
 exec 1>&3
+
+reboot
