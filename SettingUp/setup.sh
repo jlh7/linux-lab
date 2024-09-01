@@ -27,16 +27,7 @@ clear
 echo "Updating system..."
 
 echo "- Installing service..."
-apt install -y vim
-echo "------------------------------------------ DONE ------------------------------------------"
-
-##################### Network
-cd Network
-bash setup.sh -h $_host
-cd ..
-
-echo "- Installing service..."
-apt install -y apt-transport-https ca-certificates curl gpg systemd wget openssh-server
+apt install -y vim apt-transport-https ca-certificates curl gpg systemd wget openssh-server openvswitch-switch-dpdk
 echo "------------------------------------------ DONE ------------------------------------------"
 
 vim ./sources.list
@@ -58,6 +49,11 @@ chmod +x /bin/full-update-system
 echo "- Updating..."
 sudo full-update-system
 echo "------------------------------------------ DONE ------------------------------------------"
+
+##################### Network
+cd Network
+bash setup.sh -h $_host
+cd ..
 
 ##################### Profile
 cd Profile
