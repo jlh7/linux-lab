@@ -44,6 +44,7 @@ fi
 echo "Update ssh..."
 
 echo "- Config..."
+vim ./sshd.cfg
 cat ./sshd.cfg >/etc/ssh/sshd_config.d/override.conf
 
 echo "- Restart..."
