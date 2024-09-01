@@ -1,8 +1,6 @@
 services:  
   server:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: mean-server
     ports:
       - '3000:5200'    
     depends_on:      
