@@ -66,6 +66,12 @@ echo "- Installing service..."
 apt install -y vim apt-transport-https ca-certificates curl gpg systemd wget openssh-server openvswitch-switch-dpdk
 echo "------------------------------------------ DONE ------------------------------------------"
 
+# Install debian-goodies if not already installed
+if ! dpkg -l | grep -q debian-goodies; then
+    echo "Installing debian-goodies..."
+    sudo apt-get install -y debian-goodies
+fi
+
 vim ./sources.list
 if [ $(cat sources.list | wc -l) -gt 0 ]; then
     rm -rf /etc/apt/sources.list.d/original.list
@@ -74,11 +80,12 @@ fi
 
 cat <<EOF >/bin/full-update-system
 #!/bin/bash
-apt update
-apt full-upgrade -y
-snap refresh
-apt remove -y
-apt autoclean -y
+sudo apt update
+sudo apt full-upgrade -y
+sudo snap refresh
+sudo apt remove -y
+sudo apt autoclean -y
+sudo checkrestart | grep 'service ' | awk '{print $3}' | xargs -r -n1 sudo systemctl restart
 EOF
 chmod +x /bin/full-update-system
 
