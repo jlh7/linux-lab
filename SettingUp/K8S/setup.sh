@@ -71,7 +71,7 @@ apt-mark hold kubelet kubeadm kubectl
 echo "------------------------------------------ DONE ------------------------------------------"
 
 if [ -z "$_ip" ]; then
-  _ip=$(cat ../Network/hosts.cfg | grep vm-1 | awk '{printf $1}')
+  _ip=$(cat ../Network/hosts.cfg | grep registry | awk '{printf $1}')
 fi
 
 bash ./config.sh -ip $_ip
