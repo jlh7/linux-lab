@@ -5,31 +5,6 @@ if [ $(id -u) -ne 0 ]; then
   exit 1
 fi
 
-_ip=''
-_is_help=false
-
-while [ -n "$1" ]; do
-  case "$1" in
-  -ip)
-    _ip="$2"
-    shift 1
-    ;;
-  --help)
-    _is_help=true
-    break
-    ;;
-  *)
-    echo "'$1' is valid!"
-    ;;
-  esac
-  shift 1
-done
-
-if [ "$_is_help" = true ]; then
-  echo '-ip <ip registry>'
-  exit 1
-fi
-
 echo "Setting up before install k8s..."
 
 echo "- Turn off swap..."
@@ -70,8 +45,11 @@ apt install -y kubelet kubeadm kubectl
 apt-mark hold kubelet kubeadm kubectl
 echo "------------------------------------------ DONE ------------------------------------------"
 
-if [ -z "$_ip" ]; then
+_ip=''
+if [ -z "$1" ]; then
   _ip=$(cat ../Network/hosts.cfg | grep registry | awk '{printf $1}')
+else
+  _ip="$1"
 fi
 
 bash ./config.sh -ip $_ip
