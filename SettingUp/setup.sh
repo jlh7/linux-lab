@@ -9,11 +9,11 @@ _user=''
 _host=''
 
 while [ -z "$_user" ]; do
-    echo -n "Please, input username:"
+    echo -n "Please, input username: "
     read _user
 done
 while [ -z "$_host" ]; do
-    echo -n "Please, input hostname:"
+    echo -n "Please, input hostname: "
     read _host
 done
 
