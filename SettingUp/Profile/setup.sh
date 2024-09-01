@@ -47,13 +47,15 @@ echo "PS1='\[\033[01;32m\]\u\[\033[01;37m\]@\[\033[01;33m\]\h\[\033[01;31m\]:\[\
 echo "PS1='\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[00m\]\$ '" >>"/root/.bashrc"
 source ~/.bashrc
 
-# echo "- Set screen resolution..."
-# cat ./grub.cfg >>/etc/default/grub
-# update-grub
+echo "- Set screen resolution..."
+vim ./grub.cfg
+cat ./grub.cfg >>/etc/default/grub
+update-grub
 
-# echo "- Set fontsize..."
-# cat ./console-setup.cfg >/etc/default/console-setup
-# update-initramfs -u
+echo "- Set fontsize..."
+vim ./console-setup.cfg
+cat ./console-setup.cfg >/etc/default/console-setup
+update-initramfs -u
 
 echo "- Sudo without password..."
 echo "$_user ALL=(ALL:ALL) NOPASSWD: ALL" >"/etc/sudoers.d/$_user"

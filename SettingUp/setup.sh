@@ -53,27 +53,36 @@ if [ -z "$_host" ]; then
     exit 1
 fi
 
+date=$(date '+%H:%M:%S.%Y-%m-%d')
+
 exec 3>&1
-exec > >(tee -a tracking.log)
+exec > >(tee -a $date.log)
 
 clear
 ##################### Update
 echo "Updating system..."
 
-#rm -rf /etc/apt/sources.list.d/original.list
+echo "- Installing service..."
+apt install -y vim apt-transport-https ca-certificates curl gpg systemd wget openssh-server
+echo "------------------------------------------ DONE ------------------------------------------"
 
-#cat ./sources.list >/etc/apt/sources.list
+vim ./sources.list
+rm -rf /etc/apt/sources.list.d/original.list
+cat ./sources.list >/etc/apt/sources.list
+
+cat <<EOF >/bin/full-update-system
+#!/bin/bash
+apt update
+apt full-upgrade -y
+snap refresh
+apt remove -y
+apt autoclean -y
+systemctl daemon-reload
+EOF
+chmod +x /bin/full-update-system
 
 echo "- Updating..."
-apt update
-echo "------------------------------------------ DONE ------------------------------------------"
-
-echo "- Upgrading..."
-apt full-upgrade -y
-echo "------------------------------------------ DONE ------------------------------------------"
-
-echo "- Installing service..."
-apt install -y apt-transport-https ca-certificates curl gpg systemd wget openssh-server openvswitch-switch-dpdk
+sudo full-update-system
 echo "------------------------------------------ DONE ------------------------------------------"
 
 ##################### Profile
