@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ $(id -u) -ne 0 ]; then
+  echo "Please run as root mode"
+  exit 1
+fi
+
 if [ -z "$1" ]; then
   echo '-h <hostname>'
   echo '--help for help'
@@ -36,21 +41,17 @@ if [ -z "$_host" ]; then
   exit 1
 fi
 
-echo "- Installing service..."
-sudo apt install -y openvswitch-switch-dpdk
-echo "------------------------------------------ DONE ------------------------------------------"
-
 echo "Updating node..."
 
-sudo hostnamectl set-hostname $_host
+hostnamectl set-hostname $_host
 
 vim ./hosts.cfg
 vim ./50-cloud-init.yaml
 
 echo "- Setting network from file ..."
-sudo cat ./hosts.cfg >/etc/hosts
-sudo rm -rf /etc/netplan/*.yaml
-sudo cp ./*.yaml /etc/netplan
-sudo chmod 600 /etc/netplan/*.yaml
+cat ./hosts.cfg >/etc/hosts
+rm -rf /etc/netplan/*.yaml
+cp ./*.yaml /etc/netplan
+chmod 600 /etc/netplan/*.yaml
 sudo netplan apply
 echo "------------------------------------------ DONE ------------------------------------------"

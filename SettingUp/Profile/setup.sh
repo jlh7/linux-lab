@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ $(id -u) -ne 0 ]; then
+  echo "Please run as root mode"
+  exit 1
+fi
+
 if [ -z "$1" ]; then
   echo '-u <username>'
   echo '--help for help'
@@ -38,25 +43,27 @@ fi
 
 echo "Updating profile..."
 echo "- Set color..."
+vim /home/$_user/.bashrc
+cat /home/$_user/.bashrc >"/root/.bashrc"
 echo "PS1='\[\033[01;32m\]\u\[\033[01;37m\]@\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[00m\]\$ '" >>"/home/$_user/.bashrc"
-sudo $(echo "PS1='\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[00m\]\$ '" >>"/root/.bashrc")
+sudo echo "PS1='\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[00m\]\$ '" >>"/root/.bashrc"
 source ~/.bashrc
 
 echo "- Set screen resolution..."
 vim ./grub.cfg
-sudo cat ./grub.cfg >>/etc/default/grub
-sudo update-grub
+cat ./grub.cfg >>/etc/default/grub
+update-grub
 
 echo "- Set fontsize..."
 vim ./console-setup.cfg
-sudo cat ./console-setup.cfg >/etc/default/console-setup
-sudo update-initramfs -u
+cat ./console-setup.cfg >/etc/default/console-setup
+update-initramfs -u
 
 echo "- Sudo without password..."
-sudo echo "$_user ALL=(ALL:ALL) NOPASSWD: ALL" >"/etc/sudoers.d/$_user"
+echo "$_user ALL=(ALL:ALL) NOPASSWD: ALL" >"/etc/sudoers.d/$_user"
 
 echo "- Use ntp to update time..."
-sudo timedatectl set-timezone Asia/Ho_Chi_Minh
-sudo apt install ntp -y
-sudo systemctl start ntp
+timedatectl set-timezone Asia/Ho_Chi_Minh
+apt install ntp -y
+systemctl start ntp
 echo "------------------------------------------ DONE ------------------------------------------"

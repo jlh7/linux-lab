@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ $(id -u) -ne 0 ]; then
+    echo "Please run as root mode"
+    exit 1
+fi
+
 if [ -z "$1" ]; then
     echo '-u <username>'
     echo '-h <hostname>'
@@ -58,7 +63,7 @@ clear
 echo "Updating system..."
 
 echo "- Installing service..."
-sudo apt install -y vim
+apt install -y vim apt-transport-https ca-certificates curl gpg systemd wget openssh-server openvswitch-switch-dpdk
 echo "------------------------------------------ DONE ------------------------------------------"
 
 vim ./sources.list
@@ -69,20 +74,16 @@ fi
 
 cat <<EOF >/bin/full-update-system
 #!/bin/bash
-sudo apt update
-sudo apt full-upgrade -y
-sudo snap refresh
-sudo apt remove -y
-sudo apt autoclean -y
+apt update
+apt full-upgrade -y
+snap refresh
+apt remove -y
+apt autoclean -y
 EOF
 chmod +x /bin/full-update-system
 
 echo "- Updating..."
 sudo full-update-system
-echo "------------------------------------------ DONE ------------------------------------------"
-
-echo "- Installing service..."
-sudo apt install -y apt-transport-https ca-certificates curl gpg systemd wget openssh-server
 echo "------------------------------------------ DONE ------------------------------------------"
 
 ##################### Profile

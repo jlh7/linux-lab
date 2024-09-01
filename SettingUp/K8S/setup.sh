@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ $(id -u) -ne 0 ]; then
+  echo "Please run as root mode"
+  exit 1
+fi
+
 _ip=''
 _is_help=false
 
@@ -28,48 +33,48 @@ fi
 echo "Setting up before install k8s..."
 
 echo "- Turn off swap..."
-sudo sed -i '$ d' /etc/fstab
-sudo swapoff -a
+sed -i '$ d' /etc/fstab
+swapoff -a
 
 echo "- Config containerd..."
 echo "overlay" >>/etc/modules-load.d/containerd.conf
 echo "br_netfilter" >>/etc/modules-load.d/containerd.conf
 
-sudo modprobe overlay
-sudo modprobe br_netfilter
+modprobe overlay
+modprobe br_netfilter
 
-sudo echo "net.bridge.bridge-nf-call-iptables = 1" >>/etc/sysctl.d/99-kubernetes-cri.conf
-sudo echo "net.bridge.bridge-nf-call-ip6tables = 1" >>/etc/sysctl.d/99-kubernetes-cri.conf
-sudo echo "net.ipv4.ip_forward = 1" >>/etc/sysctl.d/99-kubernetes-cri.conf
+echo "net.bridge.bridge-nf-call-iptables = 1" >>/etc/sysctl.d/99-kubernetes-cri.conf
+echo "net.bridge.bridge-nf-call-ip6tables = 1" >>/etc/sysctl.d/99-kubernetes-cri.conf
+echo "net.ipv4.ip_forward = 1" >>/etc/sysctl.d/99-kubernetes-cri.conf
 
 sudo sysctl --system
 echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "- Restart containerd..."
-sudo containerd config default >/etc/containerd/config.toml
-sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
-sudo systemctl restart containerd
-sudo systemctl enable containerd
+containerd config default >/etc/containerd/config.toml
+sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+systemctl restart containerd
+systemctl enable containerd
 echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "Installing k8s..."
 
 echo "- Add K8S's official GPG key"
-sudo curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-sudo echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /" >>/etc/apt/sources.list.d/kubernetes.list
-full-update-system
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /" >>/etc/apt/sources.list.d/kubernetes.list
+apt update
 echo "------------------------------------------ DONE ------------------------------------------"
 
 echo "- Installing k8s..."
-sudo apt install -y kubelet kubeadm kubectl
-sudo apt-mark hold kubelet kubeadm kubectl
+apt install -y kubelet kubeadm kubectl
+apt-mark hold kubelet kubeadm kubectl
 echo "------------------------------------------ DONE ------------------------------------------"
 
 if [ -z "$_ip" ]; then
   _ip=$(cat ../Network/hosts.cfg | grep vm-1 | awk '{printf $1}')
 fi
 
-sudo bash ./config.sh -ip $_ip
+bash ./config.sh -ip $_ip
 
-sudo systemctl enable --now kubelet
+systemctl enable --now kubelet
 echo "------------------------------------------ DONE ------------------------------------------"
