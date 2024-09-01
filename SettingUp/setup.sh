@@ -67,8 +67,10 @@ apt install -y vim apt-transport-https ca-certificates curl gpg systemd wget ope
 echo "------------------------------------------ DONE ------------------------------------------"
 
 vim ./sources.list
-rm -rf /etc/apt/sources.list.d/original.list
-cat ./sources.list >/etc/apt/sources.list
+if [ $(cat sources.list | wc -l) -gt 0 ]; then
+    rm -rf /etc/apt/sources.list.d/original.list
+    cat ./sources.list >/etc/apt/sources.list
+fi
 
 cat <<EOF >/bin/full-update-system
 #!/bin/bash
