@@ -1,0 +1,19 @@
+services:  
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:5200'    
+    depends_on:      
+      - mongo
+    environment:
+      ATLAS_URI: mongodb://mongodb:27017/meanStackExample?retryWrites=true&w=majority  
+  mongodb:    
+    image: mongo:4.4    
+    volumes:      
+      - mongo-data:/data/db
+    ports:      
+      - '27017:27017'
+volumes:  
+  mongo-data:
