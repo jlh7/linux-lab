@@ -55,8 +55,8 @@ fi
 
 date=$(date '+%H:%M:%S.%Y-%m-%d')
 
-exec 3>&1
-exec > >(tee -a $date.log)
+# exec 3>&1
+# exec > >(tee -a $date.log)
 
 clear
 ##################### Update
@@ -116,6 +116,6 @@ echo "- Updating..."
 sudo full-update-system
 echo "------------------------------------------ DONE ------------------------------------------"
 
-exec 1>&3
+# exec 1>&3
 
 reboot

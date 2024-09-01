@@ -53,5 +53,5 @@ cat ./hosts.cfg >/etc/hosts
 rm -rf /etc/netplan/*.yaml
 cp ./*.yaml /etc/netplan
 chmod 600 /etc/netplan/*.yaml
-netplan apply
+sudo netplan apply
 echo "------------------------------------------ DONE ------------------------------------------"
