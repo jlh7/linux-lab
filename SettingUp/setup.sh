@@ -5,13 +5,6 @@ if [ $(id -u) -ne 0 ]; then
     exit 1
 fi
 
-if [ -z "$1" ]; then
-    echo '-u <username>'
-    echo '-h <hostname>'
-    echo '--help for help'
-    exit 1
-fi
-
 _user=''
 _host=''
 
