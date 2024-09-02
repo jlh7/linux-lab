@@ -46,10 +46,10 @@ echo "Updating node..."
 hostnamectl set-hostname $_host
 
 vim ./hosts.cfg
-vim ./00-installer-config.yaml
+vim ./50-cloud-init.yaml
 
 echo "- Setting network from file ..."
 cat ./hosts.cfg >/etc/hosts
-cat ./00-installer-config.yaml >/etc/netplan/00-installer-config.yaml
+cat ./50-cloud-init.yaml >/etc/netplan/50-cloud-init.yaml
 netplan apply
 echo "------------------------------------------ DONE ------------------------------------------"

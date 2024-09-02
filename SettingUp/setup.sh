@@ -17,11 +17,6 @@ while [ -z "$_host" ]; do
     read _host
 done
 
-date=$(date '+%H:%M:%S.%Y-%m-%d')
-
-exec 3>&1
-exec > >(tee -a /var/log/startUp.$date.log)
-
 clear
 ##################### Update
 echo "Updating system..."
@@ -30,10 +25,11 @@ echo "- Installing service..."
 apt install -y vim apt-transport-https ca-certificates curl gpg systemd wget openssh-server openvswitch-switch-dpdk
 echo "------------------------------------------ DONE ------------------------------------------"
 
-vim ./sources.list
-if [ $(cat sources.list | wc -l) -gt 0 ]; then
-    rm -rf /etc/apt/sources.list.d/original.list
-    cat ./sources.list >/etc/apt/sources.list
+echo "- Adding repository..."
+if [ ! -f /etc/apt/sources.list.d/original.list ]; then
+    vim /etc/apt/sources.list
+else
+    vim /etc/apt/sources.list.d/original.list
 fi
 
 cat <<EOF >/bin/full-update-system
@@ -43,42 +39,55 @@ sudo apt full-upgrade -y
 sudo snap refresh
 sudo apt remove -y
 sudo apt autoclean -y
+systemctl daemon-reload
 EOF
 chmod +x /bin/full-update-system
 
 echo "- Updating..."
 sudo full-update-system
 echo "------------------------------------------ DONE ------------------------------------------"
+sleep 3
+clear
 
 ##################### Network
 cd Network
 bash setup.sh -h $_host
 cd ..
+sleep 3
+clear
 
 ##################### Profile
 cd Profile
 bash setup.sh -u $_user
 cd ..
+sleep 3
+clear
 
 ##################### SSH
 cd SSH
 bash setup.sh -u $_user
 cd ..
+sleep 3
+clear
 
 ##################### Docker
 cd Docker
 bash setup.sh -u $_user
 cd ..
+sleep 3
+clear
 
 ##################### K8S
 cd K8S
 bash setup.sh
 cd ..
+sleep 3
+clear
 
 echo "- Updating..."
 sudo full-update-system
 echo "------------------------------------------ DONE ------------------------------------------"
-
-exec 1>&3
+sleep 3
+clear
 
 reboot
