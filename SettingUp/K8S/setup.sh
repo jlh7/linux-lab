@@ -47,7 +47,7 @@ echo "------------------------------------------ DONE --------------------------
 
 _ip=''
 if [ -z "$1" ]; then
-  _ip=$(cat ../Network/hosts.cfg | grep registry | awk '{printf $1}')
+  _ip=$(cat /etc/hosts | grep registry | awk '{printf $1}')
 else
   _ip="$1"
 fi
