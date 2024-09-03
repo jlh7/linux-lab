@@ -39,7 +39,7 @@ sudo apt full-upgrade -y
 sudo snap refresh
 sudo apt remove -y
 sudo apt autoclean -y
-systemctl daemon-reload
+sudo systemctl daemon-reload
 EOF
 chmod +x /bin/full-update-system
 
