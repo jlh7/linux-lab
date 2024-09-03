@@ -50,13 +50,12 @@ sudo echo "PS1='\[\033[01;33m\]\h\[\033[01;31m\]:\[\033[01;36m\] \w\n\[\033[00m\
 source ~/.bashrc
 
 echo "- Set screen resolution..."
-vim ./grub.cfg
-cat ./grub.cfg >>/etc/default/grub
+cat ./grub.cfg >> "/etc/default/grub"
+vim /etc/default/grub
 update-grub
 
 echo "- Set fontsize..."
-vim ./console-setup.cfg
-cat ./console-setup.cfg >/etc/default/console-setup
+vim /etc/default/console-setup
 update-initramfs -u
 
 echo "- Sudo without password..."
