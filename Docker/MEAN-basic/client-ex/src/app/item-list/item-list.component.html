@@ -1,0 +1,15 @@
+<header>
+  <h1>Notes</h1>
+  <a routerLink="/create" class="add-note-button">Create New Note</a>
+</header>
+
+<main class="note-list-container">
+  <div *ngFor="let note of notes" class="note-card">
+    <h3>{{ note.title }}</h3>
+    <p>{{ note.content }}</p>
+    <div class="note-actions">
+      <button (click)="deleteNote(note.id)">Delete</button>
+      <button (click)="editNote(note.id)">Edit</button>
+    </div>
+  </div>
+</main>
