@@ -1,15 +1,24 @@
-services:  
-  mongodb:    
-    image: mongodb/mongodb-community-server:5.0-ubuntu2004    
+services:
+  mongodb:
+    image: mongodb/mongodb-community-server:5.0-ubuntu2004
     container_name: mean-mongodb
-    ports:      
-      - '27017:27017' 
+    ports:
+      - "27272:27017"
+
   server:
-    image: mean-server
+    image: server:mean-example
     container_name: mean-server
     ports:
-      - '3000:5200'
+      - "3030:3030"
     depends_on:
       - mongodb
     environment:
-      ATLAS_URI: mongodb://mongodb:27017/mean-mongodb
+      ATLAS_URI: mongodb://localhost:27272/mean-mongodb
+
+  # client:
+  #   image: mean-client
+  #   container_name: mean-client
+  #   ports:
+  #     - "4000:4200"
+  #   depends_on:
+  #     - server

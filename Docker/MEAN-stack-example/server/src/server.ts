@@ -8,6 +8,7 @@ import { employeeRouter } from "./employee.routes";
 dotenv.config();
 
 const { ATLAS_URI } = process.env;
+const PORT = 3030;
 
 if (!ATLAS_URI) {
   console.error(
@@ -23,8 +24,8 @@ connectToDatabase(ATLAS_URI)
     app.use("/employees", employeeRouter);
 
     // start the Express server
-    app.listen(5200, () => {
-      console.log(`Server running at http://localhost:5200...`);
+    app.listen(PORT, () => {
+      console.log(`Server running at http://localhost:${PORT}...`);
     });
   })
   .catch((error) => console.error(error));
